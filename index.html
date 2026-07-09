@@ -127,6 +127,16 @@
   .kb.good{background:var(--good-bg);border-color:#b9d8c4;} .kb.good .kn{color:var(--good);}
   .kb.part{background:var(--part-bg);border-color:#e6d3a3;} .kb.part .kn{color:var(--part);}
   .kb.gap{background:var(--gap-bg);border-color:#e6c3b8;} .kb.gap .kn{color:var(--gap);}
+  .moodcard{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:14px;}
+  .moodcard .mh{font-family:'Fraunces',serif;font-size:15px;color:var(--spruce);font-weight:600;margin-bottom:2px;}
+  .moodcard .msub{font-size:11.5px;color:#6a7a70;margin-bottom:10px;}
+  .moodrow{margin-bottom:10px;}
+  .moodrow .ml{font-size:12px;color:#5a6a61;font-weight:600;margin-bottom:5px;}
+  .scale{display:flex;gap:4px;}
+  .scale button{flex:1;height:32px;border:1px solid var(--line);background:#fff;border-radius:7px;font-size:12px;font-weight:600;color:var(--spruce);cursor:pointer;padding:0;font-family:inherit;}
+  .scale button.sel{background:var(--spruce);color:#fff;border-color:var(--spruce);}
+  .scale button:disabled{opacity:.5;cursor:default;}
+  .moodnote{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;font-family:inherit;background:#fff;resize:vertical;min-height:44px;margin-top:2px;}
 </style>
 </head>
 <body>
@@ -162,6 +172,7 @@
     <div id="ketobox"></div>
     <div class="h2">On the plate</div>
     <div class="plate" id="plate"></div>
+    <div id="moodcard"></div>
     <div id="results"></div>
     <p class="disc" id="discnote"></p>
   </div>
@@ -341,7 +352,7 @@ function lsGet(){try{return localStorage.getItem(KEY);}catch(e){return null;}}
 function lsSet(v){try{localStorage.setItem(KEY,v);return true;}catch(e){return false;}}
 let persistOK=false;
 
-function dayObj(date){ if(!state.days[date]) state.days[date]={today:[],stackOff:[],locked:false}; return state.days[date]; }
+function dayObj(date){ if(!state.days[date]) state.days[date]={today:[],stackOff:[],locked:false,mood:null,energy:null,note:''}; return state.days[date]; }
 function curDay(){return dayObj(state.activeDate);}
 
 async function load(){
@@ -413,10 +424,24 @@ function render(){
   document.getElementById('results').innerHTML=html;
   document.getElementById('discnote').innerHTML='Targets are general adult-female RDA/AI values; upper limits shown where one exists. Food values are standard estimates. Not medical advice — confirm your vitamin A/D totals and anything therapeutic with your mom and your labs.';
 
-  renderBuild(); renderStack(); renderCal(); renderWeek();
+  renderMood(); renderBuild(); renderStack(); renderCal(); renderWeek();
   const bk=document.getElementById('backup'); if(bk)bk.value=JSON.stringify(state);
 }
 function sc(id,v){document.getElementById(id).textContent=v;}
+let _storeT;
+function storeOnly(){const raw=JSON.stringify(state);lsSet(raw);if(hasStore){try{window.storage.set(KEY,raw);}catch(e){}}}
+function scheduleStore(){clearTimeout(_storeT);_storeT=setTimeout(storeOnly,400);}
+function renderMood(){
+  const d=curDay(), locked=d.locked;
+  const scale=(key,val)=>{let s='';for(let i=1;i<=10;i++){s+=`<button class="${val===i?'sel':''}" data-${key}="${i}"${locked?' disabled':''}>${i}</button>`;}return s;};
+  document.getElementById('moodcard').innerHTML=`<div class="moodcard">`
+    +`<div class="mh">How you felt today</div>`
+    +`<div class="msub">Tap a number 1–10. Tap it again to clear. Tracks alongside your food.</div>`
+    +`<div class="moodrow"><div class="ml">Mood${d.mood?' · '+d.mood+'/10':''}</div><div class="scale">${scale('mood',d.mood)}</div></div>`
+    +`<div class="moodrow"><div class="ml">Energy${d.energy?' · '+d.energy+'/10':''}</div><div class="scale">${scale('energy',d.energy)}</div></div>`
+    +`<textarea class="moodnote" id="moodnote" placeholder="Notes — sleep, symptoms, anything worth remembering…"${locked?' readonly':''}>${(d.note||'').replace(/</g,'&lt;')}</textarea>`
+    +`</div>`;
+}
 function ketoHtml(tot){
   const nc=tot.netcarbs||0;
   let kc,kt;
@@ -501,12 +526,14 @@ function buildCustomInputs(){document.getElementById('c-nutinputs').innerHTML=N.
 function toast(msg){const t=document.getElementById('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1100);}
 function addToday(id){ if(curDay().locked){toast('Day is locked');return;} const d=curDay(); const e=d.today.find(x=>x.id===id); if(e)e.qty++; else d.today.push({id,qty:1}); save(); const it=ALLMAP[id]; toast('✓ '+(it?it.name.split(' — ')[0]:'Added')); }
 document.addEventListener('click',e=>{
-  const t=e.target.closest('[data-add],[data-inc],[data-dec],[data-rm],[data-tog],[data-tab],[data-day],[data-mo],[data-date],[data-wk]');
+  const t=e.target.closest('[data-add],[data-inc],[data-dec],[data-rm],[data-tog],[data-tab],[data-day],[data-mo],[data-date],[data-wk],[data-mood],[data-energy]');
   if(!t)return; const d=curDay();
   if(t.dataset.add){addToday(t.dataset.add);}
   else if(t.dataset.inc){const x=d.today.find(y=>y.id===t.dataset.inc);if(x){x.qty++;save();}}
   else if(t.dataset.dec){const x=d.today.find(y=>y.id===t.dataset.dec);if(x){x.qty--;if(x.qty<=0)d.today=d.today.filter(y=>y.id!==x.id);save();}}
   else if(t.dataset.rm){d.today=d.today.filter(y=>y.id!==t.dataset.rm);save();}
+  else if(t.dataset.mood){if(d.locked)return;const v=+t.dataset.mood;d.mood=(d.mood===v)?null:v;save();}
+  else if(t.dataset.energy){if(d.locked)return;const v=+t.dataset.energy;d.energy=(d.energy===v)?null:v;save();}
   else if(t.dataset.tog){const id=t.dataset.tog;if(state.stackOn.includes(id))state.stackOn=state.stackOn.filter(x=>x!==id);else state.stackOn.push(id);save();}
   else if(t.dataset.tab){switchTab(t.dataset.tab);}
   else if(t.dataset.day){state.activeDate=shift(state.activeDate,parseInt(t.dataset.day));state.weekRef=state.activeDate;const nd=parseYmd(state.activeDate);state.calYear=nd.getFullYear();state.calMonth=nd.getMonth();save();}
@@ -516,6 +543,7 @@ document.addEventListener('click',e=>{
 });
 document.getElementById('lockbtn').addEventListener('click',()=>{curDay().locked=!curDay().locked;save();});
 document.getElementById('search').addEventListener('input',renderBuild);
+document.addEventListener('input',e=>{ if(e.target&&e.target.id==='moodnote'){ if(curDay().locked)return; curDay().note=e.target.value; scheduleStore(); } });
 document.getElementById('allon').addEventListener('click',()=>{state.stackOn=STACK.map(s=>s.id);save();});
 document.getElementById('alloff').addEventListener('click',()=>{state.stackOn=[];save();});
 document.getElementById('clearday').addEventListener('click',()=>{if(curDay().locked){alert('Unlock this day first.');return;}curDay().today=[];save();});
