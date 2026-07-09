@@ -1,45 +1,47 @@
-# Nutrition Calculator — install as an app
+# Nutrition
 
-This turns the tracker into a real app with its own icon that opens fullscreen on your iPhone and your Mac/PC.
+A ketogenic / Epi-Paleo nutrition tracker built as an installable PWA. Log foods, drinks, and
+supplements per day; see running totals against RDA/AI targets with upper-limit warnings; track a
+net-carb keto status, a sodium:potassium readout, and a daily mood/energy check-in; browse history
+on a calendar with weekly averages.
 
-You have **8 files** — keep them all together in one folder:
-`index.html`, `manifest.json`, `service-worker.js`, `icon-192.png`, `icon-512.png`, `icon-512-maskable.png`, `apple-touch-icon.png`, `favicon.png`
+## Stack
 
----
+- React 18 + Vite 6
+- `vite-plugin-pwa` for offline install (manifest + service worker generated at build)
+- No backend — all data is saved locally in the browser (`localStorage`), with manual
+  Copy/Restore backup on the Stack tab.
+- Design: "Clinical Calm" — teal-blue primary, calm status colors, Libre Franklin + Inter.
 
-## Step 1 — Put the folder online (one time, ~2 minutes, free)
+## Run it
 
-A phone can only "install" an app from a web address, so the folder needs to live at a URL. Easiest free option:
+```bash
+npm install
+npm run dev      # dev server on 0.0.0.0:5173
+```
 
-**Netlify Drop**
-1. Go to **app.netlify.com/drop** on your computer.
-2. Drag the whole folder onto the page.
-3. It gives you a link like `https://your-name.netlify.app` — that's your app's address. Bookmark it.
+Build for production / preview:
 
-(Alternatives if you prefer: GitHub Pages, Vercel, or Cloudflare Pages — any static host works. The folder just needs to be served over https.)
+```bash
+npm run build    # outputs to dist/
+npm run preview  # serves the built app on 0.0.0.0:4173
+```
 
----
+On Replit: import from GitHub, then Run. The dev server binds `0.0.0.0` and allows any host, so
+Replit's preview proxy works out of the box.
 
-## Step 2 — Install on iPhone
-1. Open your link in **Safari** (must be Safari, not Chrome).
-2. Tap the **Share** button (square with an up-arrow).
-3. Tap **Add to Home Screen** → **Add**.
-4. You'll get a **Nutrition** icon on your home screen that opens fullscreen like an app.
+## Where things live
 
-## Step 3 — Install on Mac / PC
-1. Open your link in **Chrome or Edge**.
-2. Look for the **install icon** in the address bar (a little monitor/⊕ symbol), or menu → **Install Nutrition…**
-3. It opens in its own window and lands in your Applications / Start menu.
+- `src/data.js` — nutrient definitions (`N`), food library (`LIB`, 60 items), supplement stack (`STACK`).
+- `src/logic.js` — dates, `computeTotals`, status logic, keto + sodium:potassium calculations.
+- `src/store.js` — app state, persistence, and all actions (same `localStorage` key as v1, so existing logs carry over).
+- `src/App.jsx` + `src/components/` — the UI: Day, Food, Stack, Week, and Calendar tabs.
 
----
+## Install on your phone
 
-## About your data (important)
+Once it's deployed (e.g. Replit's published URL), open that link in Safari (iPhone) or Chrome/Edge
+(desktop) and use "Add to Home Screen" / "Install" to get the app icon. Your log lives on each device
+separately — use Copy backup on the Stack tab to move it between devices.
 
-- Your log is saved **on each device separately** in that device's browser storage. Installed apps keep it reliably.
-- **iPhone and desktop do NOT auto-sync.** To move a log between them, use **Copy backup** on the Stack tab, paste it into a note or message to yourself, then **Restore from backup** on the other device.
-- Do a **Copy backup** now and then as a safety net — it's the one guaranteed way to never lose your history.
-- True cross-device sync would need a small cloud backend; happy to talk through that if you want it later.
-
----
-
-*This tracker uses general adult-female RDA/AI targets and standard food estimates. It's for your own awareness, not medical advice — confirm anything therapeutic, and your vitamin A/D totals, with your mom's practice and your labs.*
+*General adult-female RDA/AI targets and standard food estimates. For personal awareness, not medical
+advice — confirm anything therapeutic, and your vitamin A/D totals, with your mom's practice and your labs.*

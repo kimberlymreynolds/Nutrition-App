@@ -1,0 +1,79 @@
+import React, { useState, useRef, useCallback } from 'react';
+import { useStore, ensureDay } from './store.js';
+import { computeTotals, scoreCounts, parseYmd, DOW, MONs, TODAY } from './logic.js';
+import DayTab from './components/DayTab.jsx';
+import FoodTab from './components/FoodTab.jsx';
+import StackTab from './components/StackTab.jsx';
+import WeekTab from './components/WeekTab.jsx';
+import CalendarTab from './components/CalendarTab.jsx';
+
+const TABS = [
+  { id: 'day', label: 'Day' },
+  { id: 'food', label: 'Food' },
+  { id: 'stack', label: 'Stack' },
+  { id: 'week', label: 'Week' },
+  { id: 'calendar', label: '📅' },
+];
+
+export default function App() {
+  const { state, actions, persistOK } = useStore();
+  const [tab, setTab] = useState('day');
+  const [toastMsg, setToastMsg] = useState('');
+  const toastTimer = useRef(null);
+
+  const toast = useCallback((msg) => {
+    setToastMsg(msg);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToastMsg(''), 1200);
+  }, []);
+
+  const day = ensureDay(structuredClone(state), state.activeDate);
+  const realDay = state.days[state.activeDate] || day;
+  const tot = computeTotals(state, state.activeDate);
+  const sc = scoreCounts(tot);
+  const dt = parseYmd(state.activeDate);
+  const locked = realDay.locked;
+
+  function goTab(name) { setTab(name); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+  return (
+    <div className="wrap">
+      <div className="eyebrow">Daily tracker & log</div>
+      <h1>Nutrition</h1>
+      <p className="sub">Pick a day, tap in what you ate, and lock it to log it. Your supplement stack counts every day. Browse past days under Calendar.</p>
+
+      <div className="datebar">
+        <button className="dnav" onClick={() => actions.shiftDay(-1)}>‹</button>
+        <div className="dlabel">
+          <div className="d1">{DOW[dt.getDay()]}, {MONs[dt.getMonth()]} {dt.getDate()}</div>
+          <div className="d2">{(state.activeDate === TODAY ? 'TODAY · ' : '') + dt.getFullYear()}</div>
+        </div>
+        <button className={'lockbtn ' + (locked ? 'locked' : 'unlocked')} onClick={() => actions.toggleLock()}>{locked ? '🔓 Unlock' : '🔒 Lock'}</button>
+        <button className="dnav" onClick={() => actions.shiftDay(1)}>›</button>
+      </div>
+
+      <div className="score">
+        <div className="card good"><div className="n">{sc.good}</div><div className="l">On target</div></div>
+        <div className="card part"><div className="n">{sc.part}</div><div className="l">Partial</div></div>
+        <div className="card gap"><div className="n">{sc.gap}</div><div className="l">Low</div></div>
+        <div className="card over"><div className="n">{sc.over}</div><div className="l">Over limit</div></div>
+      </div>
+
+      <div className="tabs">
+        {TABS.map((t) => (
+          <div key={t.id} className={'tab' + (tab === t.id ? ' active' : '')} onClick={() => goTab(t.id)}>{t.label}</div>
+        ))}
+      </div>
+
+      {tab === 'day' && <DayTab state={state} day={realDay} actions={actions} />}
+      {tab === 'food' && <FoodTab state={state} day={realDay} actions={actions} onToast={toast} />}
+      {tab === 'stack' && <StackTab state={state} actions={actions} onToast={toast} />}
+      {tab === 'week' && <WeekTab state={state} actions={actions} />}
+      {tab === 'calendar' && <CalendarTab state={state} actions={actions} />}
+
+      <div className="savebar">{persistOK ? 'Saved automatically on this device' : '⚠ Auto-save is blocked here — use “Copy backup” in the Stack tab to keep your log'}</div>
+
+      <div className={'toast' + (toastMsg ? ' show' : '')}>{toastMsg}</div>
+    </div>
+  );
+}
