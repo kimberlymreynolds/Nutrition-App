@@ -42,6 +42,24 @@ export function computeTotals(state, date) {
   return tot;
 }
 
+function shortName(name) { return name.split(' — ')[0]; }
+
+export function contributions(state, date, key) {
+  const out = [];
+  STACK.forEach((s) => {
+    if (state.stackOn.includes(s.id) && s.nut[key]) out.push({ name: shortName(s.name), qty: 1, amt: s.nut[key], sup: true });
+  });
+  const d = state.days[date];
+  if (d && d.today) {
+    d.today.forEach((e) => {
+      const it = ALLMAP[e.id];
+      if (it && it.nut[key]) out.push({ name: shortName(it.name), qty: e.qty, amt: it.nut[key] * e.qty, sup: false });
+    });
+  }
+  out.sort((a, b) => b.amt - a.amt);
+  return out;
+}
+
 export function statusOf(n, v) {
   if (n.ul && v > n.ul) return 'over';
   if (n.t == null) return 'none';

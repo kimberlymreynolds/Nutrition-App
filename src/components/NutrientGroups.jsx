@@ -9,7 +9,7 @@ function chipText(s, pct) {
   return 'OVER';
 }
 
-export default function NutrientGroups({ tot, met, cnt }) {
+export default function NutrientGroups({ tot, met, cnt, contribFor }) {
   return (
     <div>
       {GROUPS.map((gr) => (
@@ -20,6 +20,7 @@ export default function NutrientGroups({ tot, met, cnt }) {
               const v = tot[n.k];
               const s = statusOf(n, v);
               const pct = n.t ? Math.min(100, Math.round((v / n.t) * 100)) : 0;
+              const contribs = contribFor ? contribFor(n.k) : null;
               return (
                 <div className="nut" key={n.k}>
                   <div className="top">
@@ -32,7 +33,9 @@ export default function NutrientGroups({ tot, met, cnt }) {
                       {n.t ? <span className="tg"> / {n.t}{n.u}</span> : null}
                     </span>
                   </div>
-                  {n.src ? <div className="src">({n.src})</div> : null}
+                  {contribs && contribs.length ? (
+                    <div className="src">{contribs.map((c) => c.name + (c.qty > 1 ? ' ×' + c.qty : '') + ' ' + fmt(c.amt) + n.u).join('  ·  ')}</div>
+                  ) : null}
                   {n.t ? (
                     <div className="bar"><span className={'fill ' + s} style={{ width: pct + '%' }} /></div>
                   ) : null}

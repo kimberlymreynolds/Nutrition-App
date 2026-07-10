@@ -37,46 +37,6 @@ export const N = [
   { k: 'choline', label: 'Choline', u: 'mg', t: 425, ul: 3500, grp: 'Fats & other' },
 ];
 
-const SRC = {
-  cal: 'all foods',
-  protein: 'meat, fish, eggs, cheese',
-  collagen: 'bone broth, skin-on meats, gelatin',
-  fiber: 'avocado, chia, nuts, low-carb veg',
-  fat: 'butter, oils, fatty fish, nuts',
-  satfat: 'fatty meat, butter, coconut oil',
-  carbs: 'veg, fruit, grains, dairy',
-  netcarbs: 'veg, fruit, grains, dairy',
-  sugar: 'fruit, dairy, added sugars',
-  vitA: 'liver, egg yolk, butter, fish',
-  vitD: 'salmon, sardines, egg yolk, liver',
-  vitE: 'sunflower seeds, almonds, oils',
-  vitK: 'leafy greens, natto, liver, egg yolk',
-  vitC: 'peppers, broccoli, kale, berries',
-  b1: 'pork, liver, seeds, nuts',
-  b2: 'liver, eggs, dairy, almonds',
-  b3: 'liver, chicken, tuna, salmon',
-  b5: 'liver, egg yolk, avocado, salmon',
-  b6: 'liver, salmon, poultry, tuna',
-  b7: 'liver, egg yolk, salmon, nuts',
-  folate: 'liver, leafy greens, avocado, eggs',
-  b12: 'liver, clams, beef, sardines',
-  calcium: 'cheese, sardines, greens, dairy',
-  magnesium: 'pumpkin seeds, spinach, almonds',
-  phosphorus: 'meat, fish, eggs, cheese',
-  potassium: 'avocado, salmon, spinach, meat',
-  sodium: 'salt, cured meats, cheese, broth',
-  iron: 'liver, red meat, oysters, clams',
-  zinc: 'oysters, beef, liver, pumpkin seeds',
-  copper: 'liver, oysters, shellfish, nuts',
-  selenium: 'brazil nuts, tuna, sardines, eggs',
-  iodine: 'seaweed, cod, shrimp, eggs',
-  manganese: 'nuts, seeds, shellfish, greens',
-  chromium: 'liver, egg yolk, broccoli, nuts',
-  omega3: 'salmon, sardines, mackerel, oysters',
-  choline: 'egg yolk, liver, beef, fish',
-};
-N.forEach((n) => { n.src = SRC[n.k]; });
-
 function I(id, name, cat, serving, nut, note) { return { id, name, cat, serving, nut, note }; }
 
 export const LIB = [

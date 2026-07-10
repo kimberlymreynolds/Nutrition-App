@@ -1,6 +1,6 @@
 import React from 'react';
 import { ALLMAP } from '../data.js';
-import { computeTotals, ketoStatus, naK, fmt } from '../logic.js';
+import { computeTotals, ketoStatus, naK, fmt, contributions } from '../logic.js';
 import NutrientGroups from './NutrientGroups.jsx';
 
 function KetoBox({ tot }) {
@@ -55,7 +55,7 @@ export default function DayTab({ state, day, actions }) {
           })
         )}
       </div>
-      <NutrientGroups tot={tot} />
+      <NutrientGroups tot={tot} contribFor={(k) => contributions(state, state.activeDate, k)} />
       <p className="disc">
         Targets are general adult-female RDA/AI values; upper limits shown where one exists. Food values are standard
         estimates. Not medical advice — confirm your vitamin A/D totals and anything therapeutic with your mom and your labs.
