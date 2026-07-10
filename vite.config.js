@@ -14,8 +14,8 @@ export default defineConfig({
         name: 'Nutrition',
         short_name: 'Nutrition',
         description: 'Ketogenic / Epi-Paleo nutrition tracker',
-        theme_color: '#2E7FB8',
-        background_color: '#F4F7F9',
+        theme_color: '#3B5F5A',
+        background_color: '#F2F3F4',
         display: 'standalone',
         start_url: '/',
         icons: [

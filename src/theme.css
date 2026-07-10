@@ -1,18 +1,18 @@
 :root {
-  --bg: #F4F7F9;
+  --bg: #F2F3F4;
   --surface: #FFFFFF;
-  --surface2: #EEF3F6;
-  --primary: #2E7FB8;
-  --primary2: #256A9C;
-  --accent: #5AB6A8;
-  --ink: #1C2A33;
-  --muted: #657883;
-  --line: #E1E8ED;
-  --good: #2E9E6B; --good-bg: #E4F3EC; --good-ink: #1F6E4A;
-  --part: #E0A02E; --part-bg: #FBF1DD; --part-ink: #92650F;
-  --gap: #93A3AD; --gap-bg: #EDF1F3; --gap-ink: #566670;
-  --over: #D65745; --over-bg: #FBE7E3; --over-ink: #A23A2C;
-  --font-display: 'Libre Franklin', 'Helvetica Neue', Arial, sans-serif;
+  --surface2: #E8EAEC;
+  --primary: #3B5F5A;
+  --primary2: #2F4C48;
+  --accent: #7C93C4;
+  --ink: #20242A;
+  --muted: #6C757D;
+  --line: #E2E4E6;
+  --good: #3F9D77; --good-bg: #E6F2EC; --good-ink: #2C7355;
+  --part: #CE9A3A; --part-bg: #F7EFDD; --part-ink: #866315;
+  --gap: #9AA1A6; --gap-bg: #EAECEE; --gap-ink: #5C636A;
+  --over: #CB6155; --over-bg: #F8E7E4; --over-ink: #9E3D33;
+  --font-display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -25,10 +25,10 @@ h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 
 .datebar .dnav { width: 34px; height: 34px; border: none; border-radius: 9px; background: rgba(255,255,255,.16); color: #fff; font-size: 18px; font-weight: 700; cursor: pointer; flex: none; }
 .datebar .dlabel { flex: 1; text-align: center; }
 .datebar .dlabel .d1 { font-family: var(--font-display); font-size: 16px; font-weight: 600; line-height: 1.1; }
-.datebar .dlabel .d2 { font-size: 10.5px; color: #cfe0ee; letter-spacing: .03em; }
+.datebar .dlabel .d2 { font-size: 10.5px; color: #c4d2cf; letter-spacing: .03em; }
 .lockbtn { border: none; border-radius: 9px; padding: 8px 10px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit; flex: none; }
 .lockbtn.unlocked { background: #e7b84f; color: #3a2f0a; }
-.lockbtn.locked { background: #cfe4ea; color: var(--primary2); }
+.lockbtn.locked { background: #d3dedb; color: var(--primary2); }
 .score { display: flex; gap: 7px; margin: 10px 0; }
 .score .card { flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 9px 6px; text-align: center; }
 .score .n { font-family: var(--font-display); font-size: 22px; font-weight: 600; line-height: 1; }
