@@ -10,7 +10,7 @@
   --line: #E2E4E6;
   --good: #3F9D77; --good-bg: #E6F2EC; --good-ink: #2C7355;
   --part: #CE9A3A; --part-bg: #F7EFDD; --part-ink: #866315;
-  --gap: #9AA1A6; --gap-bg: #EAECEE; --gap-ink: #5C636A;
+  --gap: #D6478A; --gap-bg: #FBE6F0; --gap-ink: #A32E63;
   --over: #CB6155; --over-bg: #F8E7E4; --over-ink: #9E3D33;
   --font-display: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
@@ -33,9 +33,9 @@ h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 
 .score .card { flex: 1; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 9px 6px; text-align: center; }
 .score .n { font-family: var(--font-display); font-size: 22px; font-weight: 600; line-height: 1; }
 .score .l { font-size: 10px; color: var(--muted); margin-top: 3px; font-weight: 500; }
-.score .good .n { color: var(--good); } .score .part .n { color: var(--part); } .score .gap .n { color: var(--gap-ink); } .score .over .n { color: var(--over); }
+.score .good .n { color: var(--good); } .score .part .n { color: var(--part); } .score .gap .n { color: var(--gap); } .score .over .n { color: var(--over); }
 .tabs { display: flex; gap: 5px; margin: 6px 0 14px; position: sticky; top: 0; background: var(--bg); padding: 8px 0; z-index: 20; }
-.tab { flex: 1; padding: 10px 4px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; font-weight: 600; font-size: 12.5px; color: var(--primary2); text-align: center; cursor: pointer; }
+.tab { flex: 1; padding: 10px 2px; border: 1px solid var(--line); background: var(--surface); border-radius: 10px; font-weight: 600; font-size: 11.5px; color: var(--primary2); text-align: center; cursor: pointer; }
 .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 .h2 { font-family: var(--font-display); font-size: 16px; color: var(--ink); margin: 16px 0 8px; font-weight: 600; }
 .muted { color: var(--muted); font-size: 12.5px; }
@@ -65,13 +65,14 @@ h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 
 .chip.part { background: var(--part-bg); color: var(--part-ink); } .fill.part { background: var(--part); }
 .chip.gap { background: var(--gap-bg); color: var(--gap-ink); } .fill.gap { background: var(--gap); }
 .chip.over { background: var(--over-bg); color: var(--over-ink); } .fill.over { background: var(--over); }
+.nut .src { font-size: 10.5px; color: var(--muted); font-weight: 400; margin-top: 2px; }
 .nut .warn { font-size: 11px; color: var(--over-ink); margin-top: 4px; }
 .search { width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; font-size: 15px; font-family: inherit; background: var(--surface); margin-bottom: 8px; }
 .cat { font-family: var(--font-display); font-size: 12.5px; color: var(--primary); text-transform: uppercase; letter-spacing: .06em; margin: 14px 0 6px; font-weight: 600; }
-.additem { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 6px; cursor: pointer; }
-.additem:active { background: var(--surface2); }
+.additem { display: flex; align-items: center; gap: 8px; padding: 9px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 6px; }
 .additem .nm { flex: 1; font-size: 13.5px; font-weight: 500; } .additem .nm small { display: block; color: #9aa8b0; font-weight: 400; font-size: 11px; }
-.additem .plus { width: 28px; height: 28px; border-radius: 8px; background: var(--accent); color: #fff; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.additem .plus { width: 30px; height: 30px; border: none; border-radius: 8px; background: var(--accent); color: #fff; font-size: 18px; font-weight: 700; display: flex; align-items: center; justify-content: center; cursor: pointer; font-family: inherit; flex: none; }
+.additem .plus:active { transform: scale(0.94); }
 .tog { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 6px; }
 .tog .nm { flex: 1; font-size: 13.5px; font-weight: 500; } .tog .nm small { display: block; color: #9aa8b0; font-weight: 400; font-size: 11px; }
 .switch { width: 44px; height: 26px; border-radius: 999px; background: #cdd8de; position: relative; cursor: pointer; transition: background .15s; flex: none; border: none; }

@@ -20,38 +20,6 @@ function KetoBox({ tot }) {
   );
 }
 
-function MoodCard({ day, actions }) {
-  const locked = day.locked;
-  const Scale = ({ value, onPick }) => (
-    <div className="scale">
-      {Array.from({ length: 10 }, (_, i) => i + 1).map((i) => (
-        <button key={i} className={value === i ? 'sel' : ''} disabled={locked} onClick={() => onPick(i)}>{i}</button>
-      ))}
-    </div>
-  );
-  return (
-    <div className="moodcard">
-      <div className="mh">How you felt today</div>
-      <div className="msub">Tap a number 1–10. Tap it again to clear. Tracks alongside your food.</div>
-      <div className="moodrow">
-        <div className="ml">Mood{day.mood ? ' · ' + day.mood + '/10' : ''}</div>
-        <Scale value={day.mood} onPick={actions.setMood} />
-      </div>
-      <div className="moodrow">
-        <div className="ml">Energy{day.energy ? ' · ' + day.energy + '/10' : ''}</div>
-        <Scale value={day.energy} onPick={actions.setEnergy} />
-      </div>
-      <textarea
-        className="moodnote"
-        placeholder="Notes — sleep, symptoms, anything worth remembering…"
-        readOnly={locked}
-        value={day.note || ''}
-        onChange={(e) => actions.setNote(e.target.value)}
-      />
-    </div>
-  );
-}
-
 export default function DayTab({ state, day, actions }) {
   const tot = computeTotals(state, state.activeDate);
   const locked = day.locked;
@@ -87,7 +55,6 @@ export default function DayTab({ state, day, actions }) {
           })
         )}
       </div>
-      <MoodCard day={day} actions={actions} />
       <NutrientGroups tot={tot} />
       <p className="disc">
         Targets are general adult-female RDA/AI values; upper limits shown where one exists. Food values are standard

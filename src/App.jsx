@@ -4,6 +4,7 @@ import { computeTotals, scoreCounts, parseYmd, DOW, MONs, TODAY } from './logic.
 import DayTab from './components/DayTab.jsx';
 import FoodTab from './components/FoodTab.jsx';
 import StackTab from './components/StackTab.jsx';
+import FeelTab from './components/FeelTab.jsx';
 import WeekTab from './components/WeekTab.jsx';
 import CalendarTab from './components/CalendarTab.jsx';
 
@@ -11,6 +12,7 @@ const TABS = [
   { id: 'day', label: 'Day' },
   { id: 'food', label: 'Food' },
   { id: 'stack', label: 'Stack' },
+  { id: 'feel', label: 'Feel' },
   { id: 'week', label: 'Week' },
   { id: 'calendar', label: '📅' },
 ];
@@ -68,6 +70,7 @@ export default function App() {
       {tab === 'day' && <DayTab state={state} day={realDay} actions={actions} />}
       {tab === 'food' && <FoodTab state={state} day={realDay} actions={actions} onToast={toast} />}
       {tab === 'stack' && <StackTab state={state} actions={actions} onToast={toast} />}
+      {tab === 'feel' && <FeelTab day={realDay} actions={actions} />}
       {tab === 'week' && <WeekTab state={state} actions={actions} />}
       {tab === 'calendar' && <CalendarTab state={state} actions={actions} />}
 

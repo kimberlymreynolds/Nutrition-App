@@ -32,6 +32,7 @@ export default function NutrientGroups({ tot, met, cnt }) {
                       {n.t ? <span className="tg"> / {n.t}{n.u}</span> : null}
                     </span>
                   </div>
+                  {n.src ? <div className="src">({n.src})</div> : null}
                   {n.t ? (
                     <div className="bar"><span className={'fill ' + s} style={{ width: pct + '%' }} /></div>
                   ) : null}

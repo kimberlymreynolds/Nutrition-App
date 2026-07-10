@@ -18,6 +18,24 @@ export default function FoodTab({ state, day, actions, onToast }) {
     actions.addFood(id);
     if (onToast) onToast('✓ ' + (label ? label.split(' — ')[0] : 'Added'));
   }
+  const qtyOf = (id) => { const e = day.today.find((x) => x.id === id); return e ? e.qty : 0; };
+  function renderItem(it) {
+    const qty = qtyOf(it.id);
+    return (
+      <div className="additem" key={it.id}>
+        <div className="nm">{it.name}<small>{it.serving || ''}</small></div>
+        {qty > 0 ? (
+          <div className="stepper">
+            <button onClick={() => actions.dec(it.id)}>−</button>
+            <span className="q">{qty}×</span>
+            <button onClick={() => actions.inc(it.id)}>＋</button>
+          </div>
+        ) : (
+          <button className="plus" onClick={() => add(it.id, it.name)}>＋</button>
+        )}
+      </div>
+    );
+  }
   function saveCustom() {
     if (!name.trim()) return;
     const clean = {};
@@ -34,12 +52,7 @@ export default function FoodTab({ state, day, actions, onToast }) {
       <input className="search" placeholder="Search foods & drinks…" value={q} onChange={(e) => setQ(e.target.value)} />
 
       <div className="cat">Your usual meals — quick add</div>
-      {quickMeals.map((it) => (
-        <div className="additem" key={it.id} onClick={() => add(it.id, it.name)}>
-          <div className="nm">{it.name}<small>{it.serving}</small></div>
-          <div className="plus">＋</div>
-        </div>
-      ))}
+      {quickMeals.map((it) => renderItem(it))}
 
       {CATS.map((c) => {
         const list = items.filter((it) => it.cat === c);
@@ -47,12 +60,7 @@ export default function FoodTab({ state, day, actions, onToast }) {
         return (
           <div key={c}>
             <div className="cat">{catLabel(c)}</div>
-            {list.map((it) => (
-              <div className="additem" key={it.id} onClick={() => add(it.id, it.name)}>
-                <div className="nm">{it.name}<small>{it.serving || ''}</small></div>
-                <div className="plus">＋</div>
-              </div>
-            ))}
+            {list.map((it) => renderItem(it))}
           </div>
         );
       })}
