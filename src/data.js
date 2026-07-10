@@ -122,3 +122,18 @@ export const STACK = [
 
 export const ALLMAP = {};
 [...LIB, ...STACK].forEach((it) => { ALLMAP[it.id] = it; });
+
+export const HABITS = [
+  { id: 'sun_am', label: 'Morning sunlight', grp: 'daily' },
+  { id: 'sun_pm', label: 'Afternoon sunlight', grp: 'daily' },
+  { id: 'redlight_sunset', label: 'Red light before sunset', grp: 'daily' },
+  { id: 'redlight_night', label: 'Red light at night', grp: 'daily' },
+  { id: 'sauna', label: 'Sauna', grp: 'daily' },
+  { id: 'cold_plunge', label: 'Cold plunge', grp: 'daily' },
+  { id: 'grounding', label: 'Grounding', grp: 'daily' },
+  { id: 'no_toxins', label: 'No toxic chemicals', grp: 'daily' },
+  { id: 'floss', label: 'Flossing', grp: 'daily' },
+  { id: 'waterpik', label: 'Water pick', grp: 'daily' },
+  { id: 'labs', label: 'Labs', note: 'once a year', grp: 'occasional' },
+  { id: 'hair_color', label: 'Hair coloring', note: '3–4× a year', grp: 'occasional' },
+];
