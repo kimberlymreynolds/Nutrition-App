@@ -12,7 +12,7 @@ const TABS = [
   { id: 'day', label: 'Day' },
   { id: 'food', label: 'Food' },
   { id: 'stack', label: 'Stack' },
-  { id: 'feel', label: 'Feel' },
+  { id: 'feel', label: 'Rituals' },
   { id: 'week', label: 'Week' },
   { id: 'calendar', label: '📅' },
 ];
