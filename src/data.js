@@ -126,8 +126,8 @@ export const ALLMAP = {};
 export const HABITS = [
   { id: 'sun_am', label: 'Morning sunlight', grp: 'daily' },
   { id: 'sun_pm', label: 'Afternoon sunlight', grp: 'daily' },
-  { id: 'redlight_sunset', label: 'Red light before sunset', grp: 'daily' },
-  { id: 'redlight_night', label: 'Red light at night', grp: 'daily' },
+  { id: 'sunset', label: 'Sunset', grp: 'daily' },
+  { id: 'redlight', label: 'Red light', grp: 'daily' },
   { id: 'sauna', label: 'Sauna', grp: 'daily' },
   { id: 'cold_plunge', label: 'Cold plunge', grp: 'daily' },
   { id: 'grounding', label: 'Grounding', grp: 'daily' },
