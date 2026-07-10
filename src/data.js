@@ -123,6 +123,22 @@ export const STACK = [
 export const ALLMAP = {};
 [...LIB, ...STACK].forEach((it) => { ALLMAP[it.id] = it; });
 
+export const MOODS = [
+  { id: 'steady', label: 'Steady' },
+  { id: 'calm', label: 'Calm' },
+  { id: 'good', label: 'Good' },
+  { id: 'hopeful', label: 'Hopeful' },
+  { id: 'low', label: 'Low' },
+  { id: 'numb', label: 'Numb' },
+  { id: 'anxious', label: 'Anxious' },
+  { id: 'irritable', label: 'Irritable' },
+  { id: 'overwhelmed', label: 'Overwhelmed' },
+  { id: 'foggy', label: 'Foggy' },
+  { id: 'restless', label: 'Restless' },
+  { id: 'wired', label: 'Wired' },
+  { id: 'tired', label: 'Tired' },
+];
+
 export const HABITS = [
   { id: 'sun_am', label: 'Morning sunlight', grp: 'daily' },
   { id: 'sun_pm', label: 'Afternoon sunlight', grp: 'daily' },
