@@ -69,9 +69,9 @@ export default function GroceryTab({ state, actions, onToast }) {
           ) : (
             <>
               <p className="muted">Your to-purchase list. Tap an item when it's in your cart to check it off, or tap Copy to send it to Notes.</p>
-              <div style={{ display: 'flex', gap: 8, margin: '10px 0 14px' }}>
-                <button className="btn" style={{ flex: 1, padding: 10, fontSize: 13 }} onClick={copyList}>{copyLabel} ({total})</button>
-                <button className="btn ghost" style={{ flex: 'none', padding: '10px 14px', fontSize: 13 }} onClick={() => actions.clearGrocery()}>Clear</button>
+              <div style={{ display: 'flex', gap: 8, margin: '10px 0 14px', alignItems: 'stretch' }}>
+                <button className="btn" style={{ flex: 1, width: 'auto' }} onClick={copyList}>{copyLabel} ({total})</button>
+                <button className="btn ghost" style={{ flex: 'none', width: 'auto', padding: '10px 14px', fontSize: 13 }} onClick={() => actions.clearGrocery()}>Clear</button>
               </div>
               {GROCERY_CATS.map((c) => {
                 const need = c.items.filter((it) => grocery[it.id]);
