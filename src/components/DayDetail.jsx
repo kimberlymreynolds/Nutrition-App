@@ -73,6 +73,7 @@ export default function DayDetail({ state, ds, hideHeader }) {
 
       <div className="detlabel" style={{ margin: '4px 0 0' }}>Vitamins &amp; nutrients</div>
       <NutrientGroups tot={tot} contribFor={(k) => contributions(state, ds, k)} />
+      <p className="disc">Under each nutrient are the foods that gave you it. General adult-female RDA/AI targets; upper limits where they exist. For your own awareness, not medical advice.</p>
     </div>
   );
 }

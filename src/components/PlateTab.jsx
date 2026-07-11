@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { ALLMAP, LIB, N } from '../data.js';
-import { computeTotals, ketoStatus, naK, fmt, contributions, catLabel } from '../logic.js';
-import NutrientGroups from './NutrientGroups.jsx';
+import { computeTotals, ketoStatus, naK, fmt, catLabel } from '../logic.js';
 
 const CATS = ['drink', 'protein', 'veg', 'fruit', 'fat', 'dairy', 'extra', 'custom'];
 
@@ -120,13 +119,6 @@ export default function PlateTab({ state, day, actions, onToast }) {
         </div>
         <button className="btn" onClick={saveCustom}>Save & add to this day</button>
       </div>
-
-      <div className="h2">Nutrients from today</div>
-      <NutrientGroups tot={tot} contribFor={(k) => contributions(state, state.activeDate, k)} />
-      <p className="disc">
-        Under each nutrient are the foods you logged today and how much each gave you. Targets are general adult-female
-        RDA/AI values; upper limits shown where one exists. Not medical advice — confirm anything therapeutic with your mom and your labs.
-      </p>
     </div>
   );
 }
