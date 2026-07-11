@@ -93,6 +93,7 @@ export const LIB = [
   I('pecans', 'Pecans', 'fat', '1 oz', { cal: 196, protein: 2.6, fat: 20, satfat: 1.8, carbs: 4, netcarbs: 1.2, fiber: 2.7, sugar: 1.1, manganese: 1.3, copper: 340, zinc: 1.3, magnesium: 34, b1: 0.2 }),
   I('chiaseeds', 'Chia seeds', 'fat', '1 oz', { cal: 138, protein: 5, fat: 9, satfat: 1, carbs: 12, netcarbs: 2, fiber: 10, calcium: 179, magnesium: 95, phosphorus: 244, iron: 2.2, zinc: 1.3, manganese: 0.8 }, 'plant omega-3 (ALA)'),
   I('flaxseeds', 'Ground flaxseed', 'fat', '2 tbsp', { cal: 75, protein: 2.6, fat: 6, satfat: 0.5, carbs: 4, netcarbs: 0.5, fiber: 3.8, sugar: 0.2, magnesium: 55, phosphorus: 90, potassium: 120, b1: 0.2, manganese: 0.4, copper: 170 }, 'plant omega-3 (ALA)'),
+  I('hempseeds', 'Hemp seeds (hearts)', 'fat', '3 tbsp', { cal: 166, protein: 9.5, fat: 14.6, satfat: 1.4, carbs: 2.6, netcarbs: 1.4, fiber: 1.2, sugar: 0.4, magnesium: 210, phosphorus: 495, potassium: 360, zinc: 3, iron: 2.4, manganese: 2.75, b1: 0.4, b3: 0.28, calcium: 21, vitE: 0.3, copper: 480 }, 'plant omega-3 (ALA)'),
   I('pumpkinseeds', 'Pumpkin seeds', 'fat', '1 oz', { cal: 151, protein: 7, fat: 13, satfat: 2.3, carbs: 5, netcarbs: 3.2, fiber: 1.8, sugar: 0.4, magnesium: 150, zinc: 2.2, iron: 2.3, phosphorus: 330, manganese: 1.3, copper: 390, potassium: 260 }),
   I('mctoil', 'MCT oil', 'fat', '1 tbsp', { cal: 115, fat: 14, satfat: 14 }),
   I('coconutoil', 'Coconut oil', 'fat', '1 tbsp', { cal: 120, fat: 14, satfat: 12 }),

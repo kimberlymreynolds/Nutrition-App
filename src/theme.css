@@ -202,6 +202,9 @@ h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 
 .gitem .gname { flex: 1; }
 .gitem.on { border-color: var(--accent); background: var(--gap-bg); }
 .gitem.on .gbox { background: var(--accent); border-color: var(--accent); }
+.mealsum { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 10px; padding: 10px 12px; background: var(--surface2); border-radius: 10px; font-size: 13px; color: var(--muted); }
+.mealsum b { color: var(--ink); font-weight: 700; }
+.btn:disabled { opacity: 0.45; cursor: default; }
 .detchips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .dchip { font-size: 12.5px; font-weight: 500; border-radius: 999px; padding: 5px 12px; }
 .dchip.food { background: #E4F1EA; color: #2C7355; }

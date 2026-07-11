@@ -124,6 +124,14 @@ export function useStore() {
         d.today.push({ id, qty: 1 });
       });
     },
+    addCustomFood(item) {
+      mutate((s) => {
+        s.custom.push(item);
+        ALLMAP[item.id] = item;
+        const d = ensureDay(s, s.activeDate);
+        if (!d.locked) d.today.push({ id: item.id, qty: 1 });
+      });
+    },
     setWeekRef(ref) { mutate((s) => { s.weekRef = ref; }); },
     setCal(year, month) { mutate((s) => { s.calYear = year; s.calMonth = month; }); },
     toggleGrocery(id) { mutate((s) => { s.grocery = s.grocery || {}; s.grocery[id] = !s.grocery[id]; }); },
