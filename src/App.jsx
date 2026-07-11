@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useStore, ensureDay } from './store.js';
-import { computeTotals, scoreCounts, parseYmd, DOW, MONs, TODAY } from './logic.js';
+import { parseYmd, DOW, MONs, TODAY } from './logic.js';
 import DayTab from './components/DayTab.jsx';
 import PlateTab from './components/PlateTab.jsx';
 import StackTab from './components/StackTab.jsx';
@@ -33,8 +33,6 @@ export default function App() {
 
   const day = ensureDay(structuredClone(state), state.activeDate);
   const realDay = state.days[state.activeDate] || day;
-  const tot = computeTotals(state, state.activeDate);
-  const sc = scoreCounts(tot);
   const dt = parseYmd(state.activeDate);
   const locked = realDay.locked;
 
@@ -54,13 +52,6 @@ export default function App() {
         </div>
         <button className={'lockbtn ' + (locked ? 'locked' : 'unlocked')} onClick={() => actions.toggleLock()}>{locked ? '🔓 Unlock' : '🔒 Lock'}</button>
         <button className="dnav" onClick={() => actions.shiftDay(1)}>›</button>
-      </div>
-
-      <div className="score">
-        <div className="card good"><div className="n">{sc.good}</div><div className="l">On target</div></div>
-        <div className="card part"><div className="n">{sc.part}</div><div className="l">Partial</div></div>
-        <div className="card gap"><div className="n">{sc.gap}</div><div className="l">Low</div></div>
-        <div className="card over"><div className="n">{sc.over}</div><div className="l">Over limit</div></div>
       </div>
 
       <div className="tabs">

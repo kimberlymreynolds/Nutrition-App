@@ -1,6 +1,6 @@
 import React from 'react';
 import { STACK, HABITS, MOOD_MAP, ENERGY_LEVELS, SLEEP_HRS } from '../data.js';
-import { computeTotals, ketoStatus, fmt } from '../logic.js';
+import { computeTotals, ketoStatus, fmt, scoreCounts } from '../logic.js';
 
 const ENERGY_MAP = Object.fromEntries(ENERGY_LEVELS.map((e) => [e.id, e.label]));
 const SLEEP_MAP = Object.fromEntries(SLEEP_HRS.map((s) => [s.id, s.label]));
@@ -25,10 +25,18 @@ export default function DayTab({ state, day, actions, goTab }) {
   const stackTaken = STACK.filter((s) => day.stack && day.stack[s.id]).map((s) => ({ name: s.name, caps: day.stack[s.id] }));
   const ritualsDone = HABITS.filter((h) => day.habits && day.habits[h.id]).map((h) => HABIT_MAP[h.id]);
   const mood = day.md ? MOOD_MAP[day.md] : null;
+  const sc = scoreCounts(tot);
 
   return (
     <div>
       {day.locked && <div className="banner lock">🔒 This day is logged and locked. Tap Unlock above to make changes.</div>}
+
+      <div className="score" style={{ marginTop: 0 }}>
+        <div className="card good"><div className="n">{sc.good}</div><div className="l">On target</div></div>
+        <div className="card part"><div className="n">{sc.part}</div><div className="l">Partial</div></div>
+        <div className="card gap"><div className="n">{sc.gap}</div><div className="l">Low</div></div>
+        <div className="card over"><div className="n">{sc.over}</div><div className="l">Over limit</div></div>
+      </div>
 
       <Card title="Mood" onGo={() => goTab('mood')} empty={(!mood && !day.energy && !day.sleepHrs && !day.note) ? 'Not set yet — tap to check in.' : null}>
         {mood && <span className="moodpill" style={{ background: mood.color }}>{mood.label}</span>}
