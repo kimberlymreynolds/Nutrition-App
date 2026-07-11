@@ -3,9 +3,11 @@ import { GROCERY_CATS } from '../data.js';
 
 export default function GroceryTab({ state, actions, onToast }) {
   const [view, setView] = useState('pantry');
+  const [q, setQ] = useState('');
   const [copyLabel, setCopyLabel] = useState('Copy grocery list');
   const grocery = state.grocery || {};
   const total = Object.keys(grocery).filter((k) => grocery[k]).length;
+  const query = q.trim().toLowerCase();
 
   function copyList() {
     const lines = [];
@@ -36,20 +38,28 @@ export default function GroceryTab({ state, actions, onToast }) {
         <>
           <div className="h2">Pantry</div>
           <p className="muted">Everything you keep on hand. Tap anything you need to buy — it moves to your <b>Grocery list</b>.</p>
-          {GROCERY_CATS.map((c) => (
-            <div key={c.cat} className="gcat">
-              <div className="cat">{c.cat}</div>
-              {c.items.map((it) => {
-                const on = !!grocery[it.id];
-                return (
-                  <button key={it.id} className={'gitem' + (on ? ' on' : '')} onClick={() => actions.toggleGrocery(it.id)}>
-                    <span className="gbox">{on ? '✓' : ''}</span>
-                    <span className="gname">{it.name}</span>
-                  </button>
-                );
-              })}
-            </div>
-          ))}
+          <input className="search" placeholder="Search the pantry…" value={q} onChange={(e) => setQ(e.target.value)} />
+          {GROCERY_CATS.map((c) => {
+            const list = query ? c.items.filter((it) => it.name.toLowerCase().includes(query)) : c.items;
+            if (!list.length) return null;
+            return (
+              <div key={c.cat} className="gcat">
+                <div className="cat">{c.cat}</div>
+                {list.map((it) => {
+                  const on = !!grocery[it.id];
+                  return (
+                    <button key={it.id} className={'gitem' + (on ? ' on' : '')} onClick={() => actions.toggleGrocery(it.id)}>
+                      <span className="gbox">{on ? '✓' : ''}</span>
+                      <span className="gname">{it.name}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            );
+          })}
+          {query && !GROCERY_CATS.some((c) => c.items.some((it) => it.name.toLowerCase().includes(query))) && (
+            <p className="muted">No matches for “{q}”.</p>
+          )}
         </>
       ) : (
         <>
