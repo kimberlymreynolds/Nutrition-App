@@ -1,65 +1,54 @@
 import React from 'react';
-import { ALLMAP } from '../data.js';
-import { computeTotals, ketoStatus, naK, fmt, contributions } from '../logic.js';
-import NutrientGroups from './NutrientGroups.jsx';
+import { STACK, HABITS, MOOD_MAP, ENERGY_LEVELS, SLEEP_HRS } from '../data.js';
+import { computeTotals, ketoStatus, fmt } from '../logic.js';
 
-function KetoBox({ tot }) {
-  const keto = ketoStatus(tot.netcarbs);
-  const nak = naK(tot.sodium, tot.potassium);
+const ENERGY_MAP = Object.fromEntries(ENERGY_LEVELS.map((e) => [e.id, e.label]));
+const SLEEP_MAP = Object.fromEntries(SLEEP_HRS.map((s) => [s.id, s.label]));
+const HABIT_MAP = Object.fromEntries(HABITS.map((h) => [h.id, h.label]));
+
+function Card({ title, onGo, empty, children }) {
   return (
-    <div className="ketobox">
-      <div className={'kb ' + keto.cls}>
-        <div className="kn">{fmt(tot.netcarbs || 0)}g</div>
-        <div className="kl">Net carbs · {keto.label}</div>
+    <button className="ovcard" onClick={onGo}>
+      <div className="ovh">
+        <span className="ovt">{title}</span>
+        <span className="ovgo">Open ›</span>
       </div>
-      <div className={'kb ' + nak.cls}>
-        <div className="kn">{nak.value}</div>
-        <div className="kl">{nak.label}</div>
-      </div>
-    </div>
+      {empty ? <div className="ovempty">{empty}</div> : <div className="ovbody">{children}</div>}
+    </button>
   );
 }
 
-export default function DayTab({ state, day, actions }) {
+export default function DayTab({ state, day, actions, goTab }) {
   const tot = computeTotals(state, state.activeDate);
-  const locked = day.locked;
+  const keto = ketoStatus(tot.netcarbs);
+  const foods = day.today.length;
+  const stackOn = state.stackOn.length;
+  const ritualsDone = HABITS.filter((h) => day.habits && day.habits[h.id]).map((h) => HABIT_MAP[h.id]);
+  const mood = day.md ? MOOD_MAP[day.md] : null;
+
   return (
     <div>
-      {locked && <div className="banner lock">🔒 This day is logged and locked. Tap Unlock to make changes.</div>}
-      <KetoBox tot={tot} />
-      <div className="h2">On the plate</div>
-      <div className="plate">
-        {day.today.length === 0 ? (
-          <div className="empty">No food logged for this day yet. Tap the Food tab.</div>
-        ) : (
-          day.today.map((e) => {
-            const it = ALLMAP[e.id];
-            if (!it) return null;
-            return (
-              <div className="row" key={e.id}>
-                <div className="nm">{it.name}<small>{it.serving || ''}{it.note ? ' · ' + it.note : ''}</small></div>
-                {locked ? (
-                  <span style={{ color: '#9aa8b0', fontSize: 13, fontWeight: 600 }}>{e.qty}×</span>
-                ) : (
-                  <>
-                    <div className="stepper">
-                      <button onClick={() => actions.dec(e.id)}>−</button>
-                      <span className="q">{e.qty}×</span>
-                      <button onClick={() => actions.inc(e.id)}>＋</button>
-                    </div>
-                    <button className="rm" onClick={() => actions.remove(e.id)}>✕</button>
-                  </>
-                )}
-              </div>
-            );
-          })
-        )}
-      </div>
-      <NutrientGroups tot={tot} contribFor={(k) => contributions(state, state.activeDate, k)} />
-      <p className="disc">
-        Targets are general adult-female RDA/AI values; upper limits shown where one exists. Food values are standard
-        estimates. Not medical advice — confirm your vitamin A/D totals and anything therapeutic with your mom and your labs.
-      </p>
+      {day.locked && <div className="banner lock">🔒 This day is logged and locked. Tap Unlock above to make changes.</div>}
+
+      <Card title="Mood" onGo={() => goTab('mood')} empty={!mood && !day.energy && !day.sleepHrs ? 'Not set yet — tap to check in.' : null}>
+        {mood && <span className="moodpill" style={{ background: mood.color }}>{mood.label}</span>}
+        {day.energy && <span className="ovtag">{ENERGY_MAP[day.energy]} energy</span>}
+        {day.sleepHrs && <span className="ovtag">{SLEEP_MAP[day.sleepHrs]} hrs sleep</span>}
+      </Card>
+
+      <Card title="On the plate" onGo={() => goTab('plate')} empty={foods === 0 ? 'No food logged yet — tap to add.' : null}>
+        <span className={'moodpill ' + keto.cls} data-keto>{fmt(tot.netcarbs || 0)}g net carbs · {keto.label}</span>
+        <span className="ovtag">{Math.round(tot.cal)} cal</span>
+        <span className="ovtag">{foods} food{foods === 1 ? '' : 's'}</span>
+      </Card>
+
+      <Card title="Stack" onGo={() => goTab('stack')} empty={stackOn === 0 ? 'No supplements on — tap to set your stack.' : null}>
+        <span className="ovtag">{stackOn} of {STACK.length} on today</span>
+      </Card>
+
+      <Card title="Rituals" onGo={() => goTab('feel')} empty={ritualsDone.length === 0 ? 'None checked yet — tap to log your practices.' : null}>
+        {ritualsDone.length > 0 && <div className="ovlist">{ritualsDone.join(' · ')}</div>}
+      </Card>
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import { useStore, ensureDay } from './store.js';
 import { computeTotals, scoreCounts, parseYmd, DOW, MONs, TODAY } from './logic.js';
 import DayTab from './components/DayTab.jsx';
-import FoodTab from './components/FoodTab.jsx';
+import PlateTab from './components/PlateTab.jsx';
 import StackTab from './components/StackTab.jsx';
 import MoodTab from './components/MoodTab.jsx';
 import RitualsTab from './components/RitualsTab.jsx';
@@ -11,7 +11,7 @@ import CalendarTab from './components/CalendarTab.jsx';
 
 const TABS = [
   { id: 'day', label: 'Day' },
-  { id: 'food', label: 'Food' },
+  { id: 'plate', label: 'Plate' },
   { id: 'stack', label: 'Stack' },
   { id: 'mood', label: 'Mood' },
   { id: 'feel', label: 'Rituals' },
@@ -69,8 +69,8 @@ export default function App() {
         ))}
       </div>
 
-      {tab === 'day' && <DayTab state={state} day={realDay} actions={actions} />}
-      {tab === 'food' && <FoodTab state={state} day={realDay} actions={actions} onToast={toast} />}
+      {tab === 'day' && <DayTab state={state} day={realDay} actions={actions} goTab={goTab} />}
+      {tab === 'plate' && <PlateTab state={state} day={realDay} actions={actions} onToast={toast} />}
       {tab === 'stack' && <StackTab state={state} actions={actions} onToast={toast} />}
       {tab === 'mood' && <MoodTab day={realDay} actions={actions} />}
       {tab === 'feel' && <RitualsTab day={realDay} actions={actions} />}
