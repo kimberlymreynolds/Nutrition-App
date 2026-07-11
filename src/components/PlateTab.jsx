@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ALLMAP, LIB, N } from '../data.js';
 import { computeTotals, ketoStatus, fmt, catLabel } from '../logic.js';
 
-const CATS = ['drink', 'protein', 'veg', 'fruit', 'fat', 'dairy', 'extra', 'custom'];
+const CATS = ['meal', 'drink', 'protein', 'veg', 'fruit', 'fat', 'dairy', 'extra', 'custom'];
 
 function KetoBox({ tot }) {
   const keto = ketoStatus(tot.netcarbs);
@@ -11,6 +11,10 @@ function KetoBox({ tot }) {
       <div className={'kb ' + keto.cls}>
         <div className="kn">{fmt(tot.netcarbs || 0)}g</div>
         <div className="kl">Net carbs · {keto.label}</div>
+      </div>
+      <div className="kb">
+        <div className="kn" style={{ color: 'var(--ink)' }}>{fmt(tot.carbs || 0)}g</div>
+        <div className="kl">Total carbs</div>
       </div>
     </div>
   );
@@ -26,7 +30,6 @@ export default function PlateTab({ state, day, actions, onToast }) {
 
   const qtyOf = (id) => { const e = day.today.find((x) => x.id === id); return e ? e.qty : 0; };
   const items = [...LIB, ...state.custom.map((c) => ({ ...c, cat: 'custom' }))].filter((it) => it.name.toLowerCase().includes(query));
-  const quickMeals = LIB.filter((i) => i.cat === 'meal');
 
   function add(id, label) { actions.addFood(id); if (onToast) onToast('✓ ' + (label ? label.split(' — ')[0] : 'Added')); }
   function renderAdd(it) {
@@ -86,8 +89,6 @@ export default function PlateTab({ state, day, actions, onToast }) {
       </div>
       <div className="h2">Add to your plate</div>
       <input className="search" placeholder="Search foods & drinks…" value={q} onChange={(e) => setQ(e.target.value)} />
-      <div className="cat">Your usual meals — quick add</div>
-      {quickMeals.map((it) => renderAdd(it))}
       {CATS.map((c) => {
         const list = items.filter((it) => it.cat === c);
         if (!list.length) return null;

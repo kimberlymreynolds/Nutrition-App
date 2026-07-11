@@ -116,7 +116,7 @@ export const GROUPS = [...new Set(N.map((n) => n.grp))];
 
 export function catLabel(c) {
   return {
-    drink: 'Drinks', protein: 'Proteins & seafood', veg: 'Vegetables & greens',
+    meal: 'Meals', drink: 'Drinks', protein: 'Proteins & seafood', veg: 'Vegetables & greens',
     fruit: 'Fruit', fat: 'Fats & nuts', dairy: 'Dairy', extra: 'Extras', custom: 'Your custom items',
   }[c] || c;
 }

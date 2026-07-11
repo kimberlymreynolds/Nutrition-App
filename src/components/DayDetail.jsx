@@ -14,6 +14,7 @@ function KetoBox({ tot }) {
   return (
     <div className="ketobox">
       <div className={'kb ' + keto.cls}><div className="kn">{fmt(tot.netcarbs || 0)}g</div><div className="kl">Net carbs · {keto.label}</div></div>
+      <div className="kb"><div className="kn" style={{ color: 'var(--ink)' }}>{fmt(tot.carbs || 0)}g</div><div className="kl">Total carbs</div></div>
     </div>
   );
 }
