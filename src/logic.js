@@ -1,4 +1,4 @@
-import { N, STACK, ALLMAP } from './data.js';
+import { N, STACK, ALLMAP, DOSE } from './data.js';
 
 export const DOW = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 export const MON = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -26,12 +26,16 @@ export const TODAY = ymd(new Date());
 export function computeTotals(state, date) {
   const tot = {};
   N.forEach((n) => { tot[n.k] = 0; });
-  STACK.forEach((s) => {
-    if (state.stackOn.includes(s.id)) {
-      for (const k in s.nut) tot[k] += s.nut[k];
-    }
-  });
   const d = state.days[date];
+  if (d && d.stack) {
+    STACK.forEach((s) => {
+      const caps = d.stack[s.id];
+      if (!caps) return;
+      const std = (DOSE[s.id] && DOSE[s.id].caps) || 1;
+      const f = caps / std;
+      for (const k in s.nut) tot[k] += s.nut[k] * f;
+    });
+  }
   if (d && d.today) {
     d.today.forEach((e) => {
       const it = ALLMAP[e.id];
@@ -46,10 +50,16 @@ function shortName(name) { return name.split(' — ')[0]; }
 
 export function contributions(state, date, key) {
   const out = [];
-  STACK.forEach((s) => {
-    if (state.stackOn.includes(s.id) && s.nut[key]) out.push({ name: shortName(s.name), qty: 1, amt: s.nut[key], sup: true });
-  });
   const d = state.days[date];
+  if (d && d.stack) {
+    STACK.forEach((s) => {
+      const caps = d.stack[s.id];
+      if (caps && s.nut[key]) {
+        const std = (DOSE[s.id] && DOSE[s.id].caps) || 1;
+        out.push({ name: shortName(s.name), qty: caps, amt: s.nut[key] * (caps / std), sup: true });
+      }
+    });
+  }
   if (d && d.today) {
     d.today.forEach((e) => {
       const it = ALLMAP[e.id];

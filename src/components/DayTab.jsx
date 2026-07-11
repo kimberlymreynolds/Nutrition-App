@@ -22,7 +22,7 @@ export default function DayTab({ state, day, actions, goTab }) {
   const tot = computeTotals(state, state.activeDate);
   const keto = ketoStatus(tot.netcarbs);
   const foods = day.today.length;
-  const stackOn = state.stackOn.length;
+  const stackTaken = STACK.filter((s) => day.stack && day.stack[s.id]).map((s) => ({ name: s.name, caps: day.stack[s.id] }));
   const ritualsDone = HABITS.filter((h) => day.habits && day.habits[h.id]).map((h) => HABIT_MAP[h.id]);
   const mood = day.md ? MOOD_MAP[day.md] : null;
 
@@ -30,10 +30,11 @@ export default function DayTab({ state, day, actions, goTab }) {
     <div>
       {day.locked && <div className="banner lock">🔒 This day is logged and locked. Tap Unlock above to make changes.</div>}
 
-      <Card title="Mood" onGo={() => goTab('mood')} empty={!mood && !day.energy && !day.sleepHrs ? 'Not set yet — tap to check in.' : null}>
+      <Card title="Mood" onGo={() => goTab('mood')} empty={(!mood && !day.energy && !day.sleepHrs && !day.note) ? 'Not set yet — tap to check in.' : null}>
         {mood && <span className="moodpill" style={{ background: mood.color }}>{mood.label}</span>}
         {day.energy && <span className="ovtag">{ENERGY_MAP[day.energy]} energy</span>}
         {day.sleepHrs && <span className="ovtag">{SLEEP_MAP[day.sleepHrs]} hrs sleep</span>}
+        {day.note ? <div className="ovnote">“{day.note}”</div> : null}
       </Card>
 
       <Card title="On the plate" onGo={() => goTab('plate')} empty={foods === 0 ? 'No food logged yet — tap to add.' : null}>
@@ -42,8 +43,8 @@ export default function DayTab({ state, day, actions, goTab }) {
         <span className="ovtag">{foods} food{foods === 1 ? '' : 's'}</span>
       </Card>
 
-      <Card title="Stack" onGo={() => goTab('stack')} empty={stackOn === 0 ? 'No supplements on — tap to set your stack.' : null}>
-        <span className="ovtag">{stackOn} of {STACK.length} on today</span>
+      <Card title="Stack" onGo={() => goTab('stack')} empty={stackTaken.length === 0 ? 'None logged yet — tap to log what you took.' : null}>
+        {stackTaken.length > 0 && <div className="ovlist">{stackTaken.map((s) => s.name + (s.caps > 1 ? ' ×' + s.caps : '')).join(' · ')}</div>}
       </Card>
 
       <Card title="Rituals" onGo={() => goTab('feel')} empty={ritualsDone.length === 0 ? 'None checked yet — tap to log your practices.' : null}>

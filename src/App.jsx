@@ -71,7 +71,7 @@ export default function App() {
 
       {tab === 'day' && <DayTab state={state} day={realDay} actions={actions} goTab={goTab} />}
       {tab === 'plate' && <PlateTab state={state} day={realDay} actions={actions} onToast={toast} />}
-      {tab === 'stack' && <StackTab state={state} actions={actions} onToast={toast} />}
+      {tab === 'stack' && <StackTab state={state} day={realDay} actions={actions} onToast={toast} />}
       {tab === 'mood' && <MoodTab day={realDay} actions={actions} />}
       {tab === 'feel' && <RitualsTab day={realDay} actions={actions} />}
       {tab === 'week' && <WeekTab state={state} actions={actions} />}

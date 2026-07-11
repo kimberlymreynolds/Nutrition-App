@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { STACK } from '../data.js';
+import { STACK, DOSE } from '../data.js';
 
-export default function StackTab({ state, actions, onToast }) {
+export default function StackTab({ state, day, actions, onToast }) {
   const [restoreText, setRestoreText] = useState('');
   const [copyLabel, setCopyLabel] = useState('Copy backup');
   const backup = JSON.stringify(state);
+  const locked = day.locked;
+  const stack = day.stack || {};
 
   function copy() {
     let done = false;
-    try {
-      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(backup); done = true; }
-    } catch (e) { /* ignore */ }
+    try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(backup); done = true; } } catch (e) { /* ignore */ }
     setCopyLabel(done ? 'Copied ✓ — paste into Notes' : 'Select the text & copy');
     setTimeout(() => setCopyLabel('Copy backup'), 2200);
   }
@@ -30,22 +30,31 @@ export default function StackTab({ state, actions, onToast }) {
 
   return (
     <div>
-      <div className="h2">Your daily supplements</div>
+      {locked && <div className="banner lock">🔒 This day is locked — unlock it on the Day tab to change these.</div>}
+      <div className="h2">Supplements taken today</div>
       <p className="muted">
-        Everything starts <b>off</b>. Turn on the ones you actually take — they'll then count toward every day
-        automatically. Items marked “no charted nutrients” are part of your protocol but don't move the RDA numbers.
+        Log how many you actually took — the number is capsules/units, so if you take 1 instead of your usual 2, the
+        nutrients count for just 1. Items marked “no charted nutrients” are part of your protocol but don't move the RDA numbers.
       </p>
       <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-        <button className="btn" style={{ flex: 1, padding: 9, fontSize: 13 }} onClick={() => actions.allStackOn(STACK.map((s) => s.id))}>Turn all on</button>
-        <button className="btn ghost" style={{ flex: 1, padding: 9, fontSize: 13 }} onClick={() => actions.allStackOff()}>Turn all off</button>
+        <button className="btn" style={{ flex: 1, padding: 9, fontSize: 13 }} onClick={() => actions.takeUsualStack()}>Take my usual stack</button>
+        <button className="btn ghost" style={{ flex: 1, padding: 9, fontSize: 13 }} onClick={() => actions.clearStack()}>Clear</button>
       </div>
       <div>
         {STACK.map((s) => {
-          const on = state.stackOn.includes(s.id);
+          const dose = DOSE[s.id] || { caps: 1, unit: 'unit' };
+          const taken = stack[s.id] || 0;
           return (
             <div className="tog" key={s.id}>
-              <div className="nm">{s.name}<small>{s.serving}{s.note ? ' · ' + s.note : ''}</small></div>
-              <button className={'switch ' + (on ? 'on' : '')} aria-label={'Toggle ' + s.name} onClick={() => actions.toggleStack(s.id)}><b /></button>
+              <div className="nm">
+                {s.name}
+                <small>{s.serving}{s.note ? ' · ' + s.note : ''} · usually {dose.caps} {dose.unit}</small>
+              </div>
+              <div className="stepper">
+                <button onClick={() => actions.decStack(s.id)} disabled={locked || taken === 0}>−</button>
+                <span className="q">{taken}×</span>
+                <button onClick={() => actions.incStack(s.id)} disabled={locked}>＋</button>
+              </div>
             </div>
           );
         })}

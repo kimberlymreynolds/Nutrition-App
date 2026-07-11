@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { ALLMAP } from './data.js';
+import { ALLMAP, STACK, DOSE } from './data.js';
 import { ymd, TODAY } from './logic.js';
 
 const KEY = 'kim-nutricalc-v2';
 
 function defaultState() {
   const d = new Date();
-  return { activeDate: TODAY, weekRef: TODAY, days: {}, custom: [], stackOn: [], calYear: d.getFullYear(), calMonth: d.getMonth() };
+  return { activeDate: TODAY, weekRef: TODAY, days: {}, custom: [], calYear: d.getFullYear(), calMonth: d.getMonth() };
 }
 
 function normalize(s) {
@@ -14,7 +14,6 @@ function normalize(s) {
   s.custom = s.custom || [];
   s.activeDate = s.activeDate || TODAY;
   s.weekRef = s.weekRef || s.activeDate;
-  s.stackOn = s.stackOn || [];
   if (s.calYear == null) { const d = new Date(); s.calYear = d.getFullYear(); s.calMonth = d.getMonth(); }
   s.custom.forEach((it) => { ALLMAP[it.id] = it; });
   return s;
@@ -29,18 +28,19 @@ function loadState() {
 }
 
 export function ensureDay(day, date) {
-  if (!day.days[date]) day.days[date] = { today: [], locked: false, note: '', moods: {}, habits: {}, md: null, mdEve: null, eveningOn: false, energy: null, sleepHrs: null, sleepFelt: null, tank: null };
+  if (!day.days[date]) day.days[date] = { today: [], locked: false, note: '', moods: {}, habits: {}, stack: {}, md: null, mdEve: null, eveningOn: false, energy: null, sleepHrs: null, sleepFelt: {}, tank: null };
   const d = day.days[date];
   if (d.today == null) d.today = [];
   if (d.note == null) d.note = '';
   if (d.moods == null) d.moods = {};
   if (d.habits == null) d.habits = {};
+  if (d.stack == null) d.stack = {};
   if (d.md === undefined) d.md = null;
   if (d.mdEve === undefined) d.mdEve = null;
   if (d.eveningOn === undefined) d.eveningOn = false;
   if (d.energy === undefined) d.energy = null;
   if (d.sleepHrs === undefined) d.sleepHrs = null;
-  if (d.sleepFelt === undefined) d.sleepFelt = null;
+  if (d.sleepFelt == null || typeof d.sleepFelt !== 'object') d.sleepFelt = {};
   if (d.tank === undefined) d.tank = null;
   return d;
 }
@@ -105,9 +105,11 @@ export function useStore() {
     setField(field, id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d[field] = d[field] === id ? null : id; }); },
     toggleEvening() { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.eveningOn = !d.eveningOn; }); },
     toggleHabit(id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.habits = d.habits || {}; d.habits[id] = !d.habits[id]; }); },
-    toggleStack(id) { mutate((s) => { if (s.stackOn.includes(id)) s.stackOn = s.stackOn.filter((x) => x !== id); else s.stackOn.push(id); }); },
-    allStackOn(ids) { mutate((s) => { s.stackOn = ids.slice(); }); },
-    allStackOff() { mutate((s) => { s.stackOn = []; }); },
+    incStack(id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.stack = d.stack || {}; d.stack[id] = (d.stack[id] || 0) + 1; }); },
+    decStack(id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.stack = d.stack || {}; const v = (d.stack[id] || 0) - 1; if (v <= 0) delete d.stack[id]; else d.stack[id] = v; }); },
+    takeUsualStack() { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.stack = {}; STACK.forEach((su) => { d.stack[su.id] = (DOSE[su.id] && DOSE[su.id].caps) || 1; }); }); },
+    clearStack() { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.stack = {}; }); },
+    toggleIn(field, id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d[field] = d[field] || {}; d[field][id] = !d[field][id]; }); },
     addCustom(name, nut) {
       mutate((s) => {
         const id = 'custom-' + Date.now();

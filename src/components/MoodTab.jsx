@@ -59,8 +59,17 @@ export default function MoodTab({ day, actions }) {
         <div className="glabel">Last night's sleep</div>
         <div className="sublabel">How long</div>
         <Seg options={SLEEP_HRS} value={day.sleepHrs} locked={locked} onPick={set('sleepHrs')} />
-        <div className="sublabel" style={{ marginTop: 8 }}>How it felt</div>
-        <Seg options={SLEEP_FELT} value={day.sleepFelt} locked={locked} onPick={set('sleepFelt')} wrap />
+        <div className="sublabel" style={{ marginTop: 8 }}>How it felt — tap all that fit</div>
+        <div className="segwrap">
+          {SLEEP_FELT.map((o) => (
+            <button
+              key={o.id}
+              className={'segbtn' + (day.sleepFelt && day.sleepFelt[o.id] ? ' sel' : '')}
+              disabled={locked}
+              onClick={() => actions.toggleIn('sleepFelt', o.id)}
+            >{o.label}</button>
+          ))}
+        </div>
       </div>
 
       <div className="mgroup">

@@ -123,11 +123,30 @@ export const STACK = [
 export const ALLMAP = {};
 [...LIB, ...STACK].forEach((it) => { ALLMAP[it.id] = it; });
 
+// Standard daily dose per supplement (units + word). Nutrients scale by (taken / caps).
+export const DOSE = {
+  multi: { caps: 2, unit: 'capsules' },
+  dake: { caps: 1, unit: 'capsules' },
+  omega: { caps: 2, unit: 'softgels' },
+  bufferedc: { caps: 1, unit: 'capsule' },
+  puremelt: { caps: 1, unit: 'melt' },
+  rhomag: { caps: 1, unit: 'capsule' },
+  chromium: { caps: 1, unit: 'capsule' },
+  neurotopical: { caps: 1, unit: 'topical' },
+  fatty15: { caps: 1, unit: 'capsule' },
+  glycine: { caps: 1, unit: 'capsule' },
+  nac: { caps: 1, unit: 'capsule' },
+  ubqh: { caps: 1, unit: 'softgel' },
+  lithium: { caps: 1, unit: 'capsule' },
+  p3om: { caps: 2, unit: 'capsules' },
+  regenx: { caps: 1, unit: 'drops' },
+};
+
 export const MOOD_LEVELS = [
   { id: 'sinking', label: 'Sinking', color: '#3E5C86', med: '#C3CEE0' },
-  { id: 'low', label: 'Low', color: '#7C93C4', med: '#D5DDEE' },
-  { id: 'level', label: 'Level', color: '#3F9D77', med: '#C1E2D0' },
-  { id: 'lifted', label: 'Lifted', color: '#CE9A3A', med: '#ECD9A8' },
+  { id: 'low', label: 'Heavy', color: '#7C93C4', med: '#D5DDEE' },
+  { id: 'level', label: 'Even', color: '#3F9D77', med: '#C1E2D0' },
+  { id: 'lifted', label: 'Rising', color: '#CE9A3A', med: '#ECD9A8' },
   { id: 'racing', label: 'Racing', color: '#CB6155', med: '#EFC9C1' },
 ];
 export const MOOD_MAP = Object.fromEntries(MOOD_LEVELS.map((m) => [m.id, m]));
@@ -146,9 +165,14 @@ export const SLEEP_HRS = [
 ];
 export const SLEEP_FELT = [
   { id: 'rested', label: 'Rested' },
-  { id: 'broken', label: 'Broken' },
+  { id: 'deep', label: 'Deep' },
+  { id: 'light', label: 'Light' },
+  { id: 'restless', label: 'Restless' },
+  { id: 'woke', label: 'Woke a lot' },
   { id: 'wired', label: 'Wired' },
   { id: 'couldnt', label: "Couldn't wind down" },
+  { id: 'groggy', label: 'Groggy' },
+  { id: 'dreams', label: 'Vivid dreams' },
 ];
 
 export const TANK_LEVELS = [
@@ -184,6 +208,7 @@ export const HABITS = [
   { id: 'no_toxins', label: 'No toxic chemicals', grp: 'daily' },
   { id: 'floss', label: 'Flossing', grp: 'daily' },
   { id: 'waterpik', label: 'Water pick', grp: 'daily' },
+  { id: 'journal', label: 'Aesthetic journaling', grp: 'daily' },
   { id: 'labs', label: 'Labs', note: 'once a year', grp: 'occasional' },
   { id: 'hair_color', label: 'Hair coloring', note: '3–4× a year', grp: 'occasional' },
 ];
