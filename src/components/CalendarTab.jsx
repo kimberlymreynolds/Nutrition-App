@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MOOD_MAP, SLEEP_HRS } from '../data.js';
 import { MON, MONs, DOW, TODAY, weekStartOf, shift, parseYmd } from '../logic.js';
 import DayDetail from './DayDetail.jsx';
+import BackupPanel from './BackupPanel.jsx';
 
 const SLEEP_W = { u4: 25, '4_6': 50, '6_8': 75, '8p': 100 };
 const dsOf = (y, m, d) => y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
@@ -111,7 +112,7 @@ function YearView({ state, actions }) {
   );
 }
 
-export default function CalendarTab({ state, actions }) {
+export default function CalendarTab({ state, actions, onToast }) {
   const [view, setView] = useState('week');
   return (
     <div>
@@ -127,6 +128,10 @@ export default function CalendarTab({ state, actions }) {
 
       <p className="muted" style={{ margin: '4px 0 0' }}>Tap any day to see everything for it below.</p>
       <DayDetail state={state} ds={state.activeDate} />
+
+      <div style={{ marginTop: 22, borderTop: '1px solid var(--line)', paddingTop: 10 }}>
+        <BackupPanel state={state} actions={actions} onToast={onToast} />
+      </div>
     </div>
   );
 }

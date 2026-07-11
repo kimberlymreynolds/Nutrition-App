@@ -198,17 +198,17 @@ export const MOODS = [
 ];
 
 export const HABITS = [
-  { id: 'sun_am', label: 'Morning sunlight', grp: 'daily' },
-  { id: 'sun_pm', label: 'Afternoon sunlight', grp: 'daily' },
-  { id: 'sunset', label: 'Sunset', grp: 'daily' },
-  { id: 'redlight', label: 'Red light', grp: 'daily' },
-  { id: 'sauna', label: 'Sauna', grp: 'daily' },
-  { id: 'cold_plunge', label: 'Cold plunge', grp: 'daily' },
-  { id: 'grounding', label: 'Grounding', grp: 'daily' },
-  { id: 'no_toxins', label: 'No toxic chemicals', grp: 'daily' },
-  { id: 'floss', label: 'Flossing', grp: 'daily' },
-  { id: 'waterpik', label: 'Water pick', grp: 'daily' },
-  { id: 'journal', label: 'Aesthetic journaling', grp: 'daily' },
+  { id: 'sun_am', label: 'Morning sunlight', grp: 'daily', cat: 'Light & sun' },
+  { id: 'sun_pm', label: 'Afternoon sunlight', grp: 'daily', cat: 'Light & sun' },
+  { id: 'sunset', label: 'Sunset', grp: 'daily', cat: 'Light & sun' },
+  { id: 'redlight', label: 'Red light', grp: 'daily', cat: 'Light & sun' },
+  { id: 'sauna', label: 'Sauna', grp: 'daily', cat: 'Cold & heat' },
+  { id: 'cold_plunge', label: 'Cold plunge', grp: 'daily', cat: 'Cold & heat' },
+  { id: 'grounding', label: 'Grounding', grp: 'daily', cat: 'Grounding & mind' },
+  { id: 'journal', label: 'Aesthetic journaling', grp: 'daily', cat: 'Grounding & mind' },
+  { id: 'no_toxins', label: 'No toxic chemicals', grp: 'daily', cat: 'Body care' },
+  { id: 'floss', label: 'Flossing', grp: 'daily', cat: 'Body care' },
+  { id: 'waterpik', label: 'Water pick', grp: 'daily', cat: 'Body care' },
   { id: 'labs', label: 'Labs', note: 'once a year', grp: 'occasional' },
   { id: 'hair_color', label: 'Hair coloring', note: '3–4× a year', grp: 'occasional' },
 ];

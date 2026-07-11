@@ -22,8 +22,13 @@ export default function RitualsTab({ day, actions }) {
 
       <div className="h2">What I did today</div>
       <div className="msub" style={{ marginBottom: 8 }}>Tap each ritual you did. It saves with the day, so you can see it next to your food and mood.</div>
-      {daily.map((h) => (
-        <HabitRow key={h.id} habit={h} on={!!habits[h.id]} locked={locked} onToggle={() => actions.toggleHabit(h.id)} />
+      {[...new Set(daily.map((h) => h.cat))].map((cat) => (
+        <div key={cat}>
+          <div className="cat">{cat}</div>
+          {daily.filter((h) => h.cat === cat).map((h) => (
+            <HabitRow key={h.id} habit={h} on={!!habits[h.id]} locked={locked} onToggle={() => actions.toggleHabit(h.id)} />
+          ))}
+        </div>
       ))}
 
       <div className="h2">Now and then</div>
