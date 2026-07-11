@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { ALLMAP, STACK, DOSE } from './data.js';
+import { ALLMAP, STACK, DOSE, GROCERY_DEFAULTS } from './data.js';
 import { ymd, TODAY } from './logic.js';
 
 const KEY = 'kim-nutricalc-v2';
@@ -14,6 +14,7 @@ function normalize(s) {
   s.custom = s.custom || [];
   s.activeDate = s.activeDate || TODAY;
   s.weekRef = s.weekRef || s.activeDate;
+  if (s.grocery == null) s.grocery = { ...GROCERY_DEFAULTS };
   if (s.calYear == null) { const d = new Date(); s.calYear = d.getFullYear(); s.calMonth = d.getMonth(); }
   s.custom.forEach((it) => { ALLMAP[it.id] = it; });
   return s;
@@ -125,6 +126,8 @@ export function useStore() {
     },
     setWeekRef(ref) { mutate((s) => { s.weekRef = ref; }); },
     setCal(year, month) { mutate((s) => { s.calYear = year; s.calMonth = month; }); },
+    toggleGrocery(id) { mutate((s) => { s.grocery = s.grocery || {}; s.grocery[id] = !s.grocery[id]; }); },
+    clearGrocery() { mutate((s) => { s.grocery = {}; }); },
     restore(newState) { mutate((s) => { const n = normalize(newState); Object.keys(s).forEach((k) => delete s[k]); Object.assign(s, n); }); },
   }), [mutate]);
 

@@ -9,6 +9,7 @@ import StackTab from './components/StackTab.jsx';
 import MoodTab from './components/MoodTab.jsx';
 import RitualsTab from './components/RitualsTab.jsx';
 import CalendarTab from './components/CalendarTab.jsx';
+import GroceryTab from './components/GroceryTab.jsx';
 
 const TABS = [
   { id: 'day', label: 'Day' },
@@ -17,6 +18,7 @@ const TABS = [
   { id: 'mood', label: 'Mood' },
   { id: 'feel', label: 'Rituals' },
   { id: 'calendar', label: 'Calendar' },
+  { id: 'grocery', label: 'Grocery' },
 ];
 
 function RecipeModal({ meal, onClose }) {
@@ -92,6 +94,7 @@ export default function App() {
       {tab === 'mood' && <MoodTab day={realDay} actions={actions} />}
       {tab === 'feel' && <RitualsTab day={realDay} actions={actions} />}
       {tab === 'calendar' && <CalendarTab state={state} actions={actions} onToast={toast} />}
+      {tab === 'grocery' && <GroceryTab state={state} actions={actions} onToast={toast} />}
 
       <div className="savebar">{persistOK ? 'Saved automatically on this device' : '⚠ Auto-save is blocked here — use “Copy backup” in the Stack tab to keep your log'}</div>
 
