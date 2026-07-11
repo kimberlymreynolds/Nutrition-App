@@ -1,6 +1,8 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useStore, ensureDay } from './store.js';
+import { ALLMAP } from './data.js';
 import { parseYmd, DOW, MONs, TODAY } from './logic.js';
+import { RecipeContext } from './components/recipe.jsx';
 import DayTab from './components/DayTab.jsx';
 import PlateTab from './components/PlateTab.jsx';
 import StackTab from './components/StackTab.jsx';
@@ -17,11 +19,37 @@ const TABS = [
   { id: 'calendar', label: 'Calendar' },
 ];
 
+function RecipeModal({ meal, onClose }) {
+  if (!meal || !meal.recipe) return null;
+  const r = meal.recipe;
+  return (
+    <div className="modal-scrim" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-head">
+          <span className="modal-title">{meal.name}</span>
+          <button className="modal-x" onClick={onClose} aria-label="Close">✕</button>
+        </div>
+        {r.makes ? <div className="muted" style={{ marginBottom: 10 }}>{r.makes} · one serving is {meal.serving}</div> : <div className="muted" style={{ marginBottom: 10 }}>{meal.serving}</div>}
+        <div className="detlabel">Ingredients</div>
+        <ul className="recipe-list">{r.ingredients.map((i, idx) => <li key={idx}>{i}</li>)}</ul>
+        {r.steps ? (
+          <>
+            <div className="detlabel" style={{ marginTop: 14 }}>How to make it</div>
+            <ol className="recipe-steps">{r.steps.map((s, idx) => <li key={idx}>{s}</li>)}</ol>
+          </>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const { state, actions, persistOK } = useStore();
   const [tab, setTab] = useState('day');
   const [toastMsg, setToastMsg] = useState('');
+  const [recipeId, setRecipeId] = useState(null);
   const toastTimer = useRef(null);
+  const openRecipe = useCallback((id) => setRecipeId(id), []);
 
   const toast = useCallback((msg) => {
     setToastMsg(msg);
@@ -37,7 +65,7 @@ export default function App() {
   function goTab(name) { setTab(name); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
   return (
-    <>
+    <RecipeContext.Provider value={openRecipe}>
     <div className="bg-atmos" aria-hidden="true" />
     <div className="wrap">
       <div className="eyebrow eyebrow-hero">Daily tracker &amp; log</div>
@@ -69,6 +97,7 @@ export default function App() {
 
       <div className={'toast' + (toastMsg ? ' show' : '')}>{toastMsg}</div>
     </div>
-    </>
+    {recipeId && <RecipeModal meal={ALLMAP[recipeId]} onClose={() => setRecipeId(null)} />}
+    </RecipeContext.Provider>
   );
 }

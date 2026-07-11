@@ -188,6 +188,14 @@ h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 
 .dfrow .nm { flex: 1; font-size: 14px; font-weight: 500; }
 .dfrow .nm small { display: block; color: #9aa8b0; font-weight: 400; font-size: 11px; }
 .dfrow .q { color: var(--muted); font-size: 13px; font-weight: 600; flex: none; }
+.recipe-link { background: none; border: none; padding: 0; margin: 0; font-family: inherit; font-size: inherit; font-weight: inherit; color: var(--primary); cursor: pointer; text-align: left; border-bottom: 1px dotted var(--primary); }
+.modal-scrim { position: fixed; inset: 0; background: rgba(33, 31, 46, .45); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 80; }
+.modal { background: var(--surface); border-radius: 16px; padding: 18px 18px 22px; max-width: 420px; width: 100%; max-height: 82vh; overflow: auto; box-shadow: 0 20px 60px rgba(33, 31, 46, .35); }
+.modal-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 8px; }
+.modal-title { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--ink); }
+.modal-x { background: var(--surface2); border: none; border-radius: 8px; width: 30px; height: 30px; font-size: 14px; cursor: pointer; color: var(--muted); flex: none; }
+.recipe-list, .recipe-steps { margin: 4px 0 0; padding-left: 20px; font-size: 14px; line-height: 1.65; color: var(--ink); }
+.recipe-list li, .recipe-steps li { margin-bottom: 4px; }
 .detchips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .dchip { font-size: 12.5px; font-weight: 500; border-radius: 999px; padding: 5px 12px; }
 .dchip.food { background: #E4F1EA; color: #2C7355; }

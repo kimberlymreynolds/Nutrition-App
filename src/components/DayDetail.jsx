@@ -2,6 +2,7 @@ import React from 'react';
 import { MOOD_MAP, SLEEP_HRS, SLEEP_FELT, ENERGY_LEVELS, TANK_LEVELS, HABITS, STACK, ALLMAP } from '../data.js';
 import { computeTotals, ketoStatus, fmt, contributions, parseYmd, DOW, MONs, TODAY } from '../logic.js';
 import NutrientGroups from './NutrientGroups.jsx';
+import { FoodName } from './recipe.jsx';
 
 const SLEEP_MAP = Object.fromEntries(SLEEP_HRS.map((s) => [s.id, s.label]));
 const ENERGY_MAP = Object.fromEntries(ENERGY_LEVELS.map((e) => [e.id, e.label]));
@@ -53,7 +54,7 @@ export default function DayDetail({ state, ds, hideHeader }) {
           <div className="detfoods">
             {foods.map((f, i) => (
               <div className="dfrow" key={i}>
-                <div className="nm">{f.it.name}<small>{f.it.serving || ''}</small></div>
+                <div className="nm"><FoodName it={f.it} /><small>{f.it.serving || ''}</small></div>
                 <span className="q">{f.qty}×</span>
               </div>
             ))}

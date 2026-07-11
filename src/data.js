@@ -122,6 +122,32 @@ export const STACK = [
   I('regenx', 'REGEN-X', 'sup', 'PureLife', {}, 'no charted nutrients'),
 ];
 
+const RECIPES = {
+  breakfast: {
+    ingredients: ['2 eggs', 'Spinach — a handful', 'Sea salt — a pinch'],
+    steps: ['Cook the eggs (scrambled or fried) with the spinach.', 'Season with a pinch of salt.'],
+  },
+  tuna: {
+    ingredients: ['Tuna — 1 can (~5 oz), drained', 'Celery — 1 stalk, chopped', 'Mayonnaise — ~2 tbsp'],
+    steps: ['Mix everything together.'],
+  },
+  quinoa: {
+    ingredients: ['Cooked quinoa — ¾ cup', 'Arugula — a handful', 'Tomato — ⅓, chopped', 'Olive oil — ~1 tbsp'],
+    steps: ['Toss the quinoa with the arugula and tomato.', 'Dress with olive oil.'],
+  },
+  kwaffle: {
+    makes: 'Makes 4 waffles',
+    ingredients: ['Almond flour — 2 cups (200 g)', 'Eggs — 4 large', 'Butter or ghee — ¼ cup, melted', 'Milk — ¼ cup', 'Baking powder — 2 tsp', 'Vanilla — 1 tsp', 'Sea salt — ¼ tsp'],
+    steps: ['Whisk the eggs, melted butter, milk, and vanilla.', 'Stir in the almond flour, baking powder, and salt until smooth.', 'Cook in a waffle iron. Makes 4.'],
+  },
+  cwaffle: {
+    makes: 'Makes 4 waffles',
+    ingredients: ['Coconut flour — ½ cup', 'Eggs — 6 large', 'Butter, ghee, or coconut oil — ¼ cup, melted', 'Coconut milk (or heavy cream) — ½ cup', 'Baking powder — 1½ tsp', 'Vanilla — 1 tsp', 'Sea salt — ¼ tsp'],
+    steps: ['Whisk the eggs, melted butter, coconut milk, and vanilla.', 'Stir in the coconut flour, baking powder, and salt; let it sit 2–3 min to thicken.', 'Cook in a waffle iron. Makes 4.'],
+  },
+};
+LIB.forEach((m) => { if (RECIPES[m.id]) m.recipe = RECIPES[m.id]; });
+
 export const ALLMAP = {};
 [...LIB, ...STACK].forEach((it) => { ALLMAP[it.id] = it; });
 
