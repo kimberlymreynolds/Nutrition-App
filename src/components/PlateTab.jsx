@@ -40,15 +40,11 @@ export default function PlateTab({ state, day, actions, onToast }) {
     return (
       <div className="additem" key={it.id}>
         <div className="nm">{it.name}<small>{it.serving || ''}</small></div>
-        {qty > 0 ? (
-          <div className="stepper">
-            <button onClick={() => actions.dec(it.id)}>−</button>
-            <span className="q">{qty}×</span>
-            <button onClick={() => actions.inc(it.id)}>＋</button>
-          </div>
-        ) : (
-          <button className="plus" onClick={() => add(it.id, it.name)}>＋</button>
-        )}
+        <div className="stepper">
+          <button onClick={() => actions.dec(it.id)} disabled={qty === 0}>−</button>
+          <span className="q">{qty}×</span>
+          <button onClick={() => (qty === 0 ? add(it.id, it.name) : actions.inc(it.id))}>＋</button>
+        </div>
       </div>
     );
   }
