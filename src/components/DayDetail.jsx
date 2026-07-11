@@ -52,7 +52,10 @@ export default function DayDetail({ state, ds, hideHeader }) {
         <div className="detlabel">On the plate · {Math.round(tot.cal)} cal</div>
         <KetoBox tot={tot} />
         {foods.length ? (
-          <div className="detchips">{foods.map((f, i) => <span className="dchip food" key={i}>{f.it.name.split(' — ')[0]}{f.qty > 1 ? ' ×' + f.qty : ''}</span>)}</div>
+          <>
+            <div className="detsub">Foods</div>
+            <div className="detchips">{foods.map((f, i) => <span className="dchip food" key={i}>{f.it.name.split(' — ')[0]}{f.qty > 1 ? ' ×' + f.qty : ''}</span>)}</div>
+          </>
         ) : <span className="muted">—</span>}
       </div>
 
