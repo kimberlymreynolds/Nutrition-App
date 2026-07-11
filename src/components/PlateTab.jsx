@@ -90,10 +90,6 @@ export default function PlateTab({ state, day, actions, onToast }) {
           })
         )}
       </div>
-      {day.today.length > 0 && !locked && (
-        <button className="btn danger" style={{ marginTop: 8 }} onClick={() => actions.clearDay()}>Clear this day's food</button>
-      )}
-
       <div className="h2">Add to your plate</div>
       <input className="search" placeholder="Search foods & drinks…" value={q} onChange={(e) => setQ(e.target.value)} />
       <div className="cat">Your usual meals — quick add</div>

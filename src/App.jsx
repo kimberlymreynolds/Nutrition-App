@@ -6,7 +6,6 @@ import PlateTab from './components/PlateTab.jsx';
 import StackTab from './components/StackTab.jsx';
 import MoodTab from './components/MoodTab.jsx';
 import RitualsTab from './components/RitualsTab.jsx';
-import WeekTab from './components/WeekTab.jsx';
 import CalendarTab from './components/CalendarTab.jsx';
 
 const TABS = [
@@ -15,8 +14,7 @@ const TABS = [
   { id: 'stack', label: 'Stack' },
   { id: 'mood', label: 'Mood' },
   { id: 'feel', label: 'Rituals' },
-  { id: 'week', label: 'Week' },
-  { id: 'calendar', label: '📅' },
+  { id: 'calendar', label: 'Calendar' },
 ];
 
 export default function App() {
@@ -65,7 +63,6 @@ export default function App() {
       {tab === 'stack' && <StackTab state={state} day={realDay} actions={actions} onToast={toast} />}
       {tab === 'mood' && <MoodTab day={realDay} actions={actions} />}
       {tab === 'feel' && <RitualsTab day={realDay} actions={actions} />}
-      {tab === 'week' && <WeekTab state={state} actions={actions} goTab={goTab} />}
       {tab === 'calendar' && <CalendarTab state={state} actions={actions} />}
 
       <div className="savebar">{persistOK ? 'Saved automatically on this device' : '⚠ Auto-save is blocked here — use “Copy backup” in the Stack tab to keep your log'}</div>
