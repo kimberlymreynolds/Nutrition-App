@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
 import { ALLMAP, LIB, N } from '../data.js';
-import { computeTotals, ketoStatus, naK, fmt, catLabel } from '../logic.js';
+import { computeTotals, ketoStatus, fmt, catLabel } from '../logic.js';
 
 const CATS = ['drink', 'protein', 'veg', 'fruit', 'fat', 'dairy', 'extra', 'custom'];
 
 function KetoBox({ tot }) {
   const keto = ketoStatus(tot.netcarbs);
-  const nak = naK(tot.sodium, tot.potassium);
   return (
     <div className="ketobox">
       <div className={'kb ' + keto.cls}>
         <div className="kn">{fmt(tot.netcarbs || 0)}g</div>
         <div className="kl">Net carbs · {keto.label}</div>
-      </div>
-      <div className={'kb ' + nak.cls}>
-        <div className="kn">{nak.value}</div>
-        <div className="kl">{nak.label}</div>
       </div>
     </div>
   );

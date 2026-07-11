@@ -1,6 +1,6 @@
 import React from 'react';
 import { MOOD_MAP, SLEEP_HRS, SLEEP_FELT, ENERGY_LEVELS, TANK_LEVELS, HABITS, STACK, ALLMAP } from '../data.js';
-import { computeTotals, ketoStatus, naK, fmt, contributions, parseYmd, DOW, MONs, TODAY } from '../logic.js';
+import { computeTotals, ketoStatus, fmt, contributions, parseYmd, DOW, MONs, TODAY } from '../logic.js';
 import NutrientGroups from './NutrientGroups.jsx';
 
 const SLEEP_MAP = Object.fromEntries(SLEEP_HRS.map((s) => [s.id, s.label]));
@@ -11,11 +11,9 @@ const SLEEPFELT_MAP = Object.fromEntries(SLEEP_FELT.map((f) => [f.id, f.label]))
 
 function KetoBox({ tot }) {
   const keto = ketoStatus(tot.netcarbs);
-  const nak = naK(tot.sodium, tot.potassium);
   return (
     <div className="ketobox">
       <div className={'kb ' + keto.cls}><div className="kn">{fmt(tot.netcarbs || 0)}g</div><div className="kl">Net carbs · {keto.label}</div></div>
-      <div className={'kb ' + nak.cls}><div className="kn">{nak.value}</div><div className="kl">{nak.label}</div></div>
     </div>
   );
 }
@@ -50,13 +48,19 @@ export default function DayDetail({ state, ds, hideHeader }) {
 
       <div className="detbox">
         <div className="detlabel">On the plate · {Math.round(tot.cal)} cal</div>
-        <KetoBox tot={tot} />
         {foods.length ? (
-          <>
-            <div className="detsub">Foods</div>
-            <div className="detchips">{foods.map((f, i) => <span className="dchip food" key={i}>{f.it.name.split(' — ')[0]}{f.qty > 1 ? ' ×' + f.qty : ''}</span>)}</div>
-          </>
+          <div className="detfoods">
+            {foods.map((f, i) => (
+              <div className="dfrow" key={i}>
+                <div className="nm">{f.it.name}<small>{f.it.serving || ''}</small></div>
+                <span className="q">{f.qty}×</span>
+              </div>
+            ))}
+          </div>
         ) : <span className="muted">—</span>}
+        <div style={{ borderTop: '1px solid var(--line)', marginTop: 12, paddingTop: 12 }}>
+          <KetoBox tot={tot} />
+        </div>
       </div>
 
       <div className="detbox">

@@ -182,6 +182,12 @@ h1 { font-family: var(--font-display); font-weight: 600; font-size: clamp(22px, 
 .detbox .ketobox { margin: 0 0 4px; }
 .detlist { font-size: 13.5px; color: var(--ink); line-height: 1.6; }
 .detsub { font-size: 11.5px; font-weight: 600; color: var(--muted); margin: 14px 0 8px; padding-top: 12px; border-top: 1px solid var(--line); }
+.detfoods { margin-top: 4px; }
+.dfrow { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px solid #eef0f5; }
+.dfrow:last-child { border-bottom: none; }
+.dfrow .nm { flex: 1; font-size: 14px; font-weight: 500; }
+.dfrow .nm small { display: block; color: #9aa8b0; font-weight: 400; font-size: 11px; }
+.dfrow .q { color: var(--muted); font-size: 13px; font-weight: 600; flex: none; }
 .detchips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .dchip { font-size: 12.5px; font-weight: 500; border-radius: 999px; padding: 5px 12px; }
 .dchip.food { background: #E4F1EA; color: #2C7355; }
