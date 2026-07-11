@@ -18,7 +18,7 @@ const TABS = [
   { id: 'mood', label: 'Mood' },
   { id: 'feel', label: 'Rituals' },
   { id: 'calendar', label: 'Calendar' },
-  { id: 'grocery', label: 'Grocery' },
+  { id: 'grocery', label: 'Pantry' },
 ];
 
 function RecipeModal({ meal, onClose }) {

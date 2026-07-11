@@ -286,8 +286,8 @@ export const GROCERY_CATS = GRAW.map(([cat, arr]) => ({
     return { id: gslug(cat) + '-' + gslug(name), name, def };
   }),
 }));
+// Grocery list starts empty — you build it by tapping Pantry items you need.
 export const GROCERY_DEFAULTS = {};
-GROCERY_CATS.forEach((c) => c.items.forEach((i) => { if (i.def) GROCERY_DEFAULTS[i.id] = true; }));
 
 // Plate food list grouped like the grocery list (each food has one home).
 export const PLATE_SECTIONS = [
