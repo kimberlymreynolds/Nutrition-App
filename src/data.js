@@ -204,6 +204,8 @@ export const HABITS = [
   { id: 'redlight', label: 'Red light', grp: 'daily', cat: 'Light & sun' },
   { id: 'sauna', label: 'Sauna', grp: 'daily', cat: 'Cold & heat' },
   { id: 'cold_plunge', label: 'Cold plunge', grp: 'daily', cat: 'Cold & heat' },
+  { id: 'yoga', label: 'Yoga', grp: 'daily', cat: 'Movement' },
+  { id: 'swimming', label: 'Swimming', grp: 'daily', cat: 'Movement' },
   { id: 'grounding', label: 'Grounding', grp: 'daily', cat: 'Grounding & mind' },
   { id: 'journal', label: 'Aesthetic journaling', grp: 'daily', cat: 'Grounding & mind' },
   { id: 'no_toxins', label: 'No toxic chemicals', grp: 'daily', cat: 'Body care' },
