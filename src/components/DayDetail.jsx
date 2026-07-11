@@ -20,7 +20,7 @@ function KetoBox({ tot }) {
   );
 }
 
-export default function DayDetail({ state, ds }) {
+export default function DayDetail({ state, ds, hideHeader }) {
   const r = state.days[ds] || {};
   const tot = computeTotals(state, ds);
   const dt = parseYmd(ds);
@@ -34,7 +34,7 @@ export default function DayDetail({ state, ds }) {
 
   return (
     <div>
-      <div className="h2" style={{ marginTop: 14 }}>{DOW[dt.getDay()]}, {MONs[dt.getMonth()]} {dt.getDate()}{ds === TODAY ? ' · today' : ''}</div>
+      {!hideHeader && <div className="h2" style={{ marginTop: 14 }}>{DOW[dt.getDay()]}, {MONs[dt.getMonth()]} {dt.getDate()}{ds === TODAY ? ' · today' : ''}</div>}
 
       {(mood || moodEve || r.energy || r.tank || r.sleepHrs || grat.length || r.note) && (
         <div className="detbox">

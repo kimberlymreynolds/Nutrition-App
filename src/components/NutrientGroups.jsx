@@ -4,7 +4,7 @@ import { GROUPS, statusOf, fmt } from '../logic.js';
 
 function chipText(s, pct) {
   if (s === 'good') return '✓';
-  if (s === 'part') return '~' + pct + '%';
+  if (s === 'part') return pct + '%';
   if (s === 'gap') return pct + '%';
   return 'OVER';
 }
@@ -43,7 +43,7 @@ export default function NutrientGroups({ tot, met, cnt, contribFor }) {
                     <div className="met">met {met[n.k]}/{cnt} day{cnt > 1 ? 's' : ''}</div>
                   ) : null}
                   {s === 'over' ? (
-                    <div className="warn">⚠ above the {n.ul}{n.u} upper limit — worth checking with your mom</div>
+                    <div className="warn">⚠ above the {n.ul}{n.u} upper limit</div>
                   ) : null}
                 </div>
               );
