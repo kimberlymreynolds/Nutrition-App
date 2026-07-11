@@ -29,12 +29,19 @@ function loadState() {
 }
 
 export function ensureDay(day, date) {
-  if (!day.days[date]) day.days[date] = { today: [], locked: false, note: '', moods: {}, habits: {} };
+  if (!day.days[date]) day.days[date] = { today: [], locked: false, note: '', moods: {}, habits: {}, md: null, mdEve: null, eveningOn: false, energy: null, sleepHrs: null, sleepFelt: null, tank: null };
   const d = day.days[date];
   if (d.today == null) d.today = [];
   if (d.note == null) d.note = '';
   if (d.moods == null) d.moods = {};
   if (d.habits == null) d.habits = {};
+  if (d.md === undefined) d.md = null;
+  if (d.mdEve === undefined) d.mdEve = null;
+  if (d.eveningOn === undefined) d.eveningOn = false;
+  if (d.energy === undefined) d.energy = null;
+  if (d.sleepHrs === undefined) d.sleepHrs = null;
+  if (d.sleepFelt === undefined) d.sleepFelt = null;
+  if (d.tank === undefined) d.tank = null;
   return d;
 }
 
@@ -95,6 +102,8 @@ export function useStore() {
     toggleLock() { mutate((s) => { const d = ensureDay(s, s.activeDate); d.locked = !d.locked; }); },
     setNote(v) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.note = v; }); },
     toggleMood(id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.moods = d.moods || {}; d.moods[id] = !d.moods[id]; }); },
+    setField(field, id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d[field] = d[field] === id ? null : id; }); },
+    toggleEvening() { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.eveningOn = !d.eveningOn; }); },
     toggleHabit(id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.habits = d.habits || {}; d.habits[id] = !d.habits[id]; }); },
     toggleStack(id) { mutate((s) => { if (s.stackOn.includes(id)) s.stackOn = s.stackOn.filter((x) => x !== id); else s.stackOn.push(id); }); },
     allStackOn(ids) { mutate((s) => { s.stackOn = ids.slice(); }); },

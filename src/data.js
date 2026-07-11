@@ -123,20 +123,54 @@ export const STACK = [
 export const ALLMAP = {};
 [...LIB, ...STACK].forEach((it) => { ALLMAP[it.id] = it; });
 
-export const MOODS = [
+export const MOOD_LEVELS = [
+  { id: 'sinking', label: 'Sinking', color: '#3E5C86', med: '#C3CEE0' },
+  { id: 'low', label: 'Low', color: '#7C93C4', med: '#D5DDEE' },
+  { id: 'level', label: 'Level', color: '#3F9D77', med: '#C1E2D0' },
+  { id: 'lifted', label: 'Lifted', color: '#CE9A3A', med: '#ECD9A8' },
+  { id: 'racing', label: 'Racing', color: '#CB6155', med: '#EFC9C1' },
+];
+export const MOOD_MAP = Object.fromEntries(MOOD_LEVELS.map((m) => [m.id, m]));
+
+export const ENERGY_LEVELS = [
+  { id: 'low', label: 'Running low' },
   { id: 'steady', label: 'Steady' },
+  { id: 'buzzing', label: 'Buzzing' },
+];
+
+export const SLEEP_HRS = [
+  { id: 'u4', label: 'Under 4' },
+  { id: '4_6', label: '4–6' },
+  { id: '6_8', label: '6–8' },
+  { id: '8p', label: '8+' },
+];
+export const SLEEP_FELT = [
+  { id: 'rested', label: 'Rested' },
+  { id: 'broken', label: 'Broken' },
+  { id: 'wired', label: 'Wired' },
+  { id: 'couldnt', label: "Couldn't wind down" },
+];
+
+export const TANK_LEVELS = [
+  { id: 'roomy', label: 'Roomy' },
+  { id: 'full', label: 'Full' },
+  { id: 'toomuch', label: 'Too much' },
+];
+
+export const MOODS = [
   { id: 'calm', label: 'Calm' },
+  { id: 'grounded', label: 'Grounded' },
+  { id: 'connected', label: 'Connected' },
+  { id: 'content', label: 'Content' },
+  { id: 'clear', label: 'Clear' },
   { id: 'good', label: 'Good' },
   { id: 'hopeful', label: 'Hopeful' },
-  { id: 'low', label: 'Low' },
   { id: 'numb', label: 'Numb' },
   { id: 'anxious', label: 'Anxious' },
   { id: 'irritable', label: 'Irritable' },
   { id: 'overwhelmed', label: 'Overwhelmed' },
   { id: 'foggy', label: 'Foggy' },
   { id: 'restless', label: 'Restless' },
-  { id: 'wired', label: 'Wired' },
-  { id: 'tired', label: 'Tired' },
 ];
 
 export const HABITS = [

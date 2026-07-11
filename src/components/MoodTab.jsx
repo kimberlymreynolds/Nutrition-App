@@ -1,38 +1,95 @@
 import React from 'react';
-import { MOODS } from '../data.js';
+import { MOODS, MOOD_LEVELS, ENERGY_LEVELS, SLEEP_HRS, SLEEP_FELT, TANK_LEVELS } from '../data.js';
+
+function Seg({ options, value, locked, onPick, wrap }) {
+  return (
+    <div className={wrap ? 'segwrap' : 'seg'}>
+      {options.map((o) => (
+        <button key={o.id} className={'segbtn' + (value === o.id ? ' sel' : '')} disabled={locked} onClick={() => onPick(o.id)}>{o.label}</button>
+      ))}
+    </div>
+  );
+}
+
+function MoodScale({ value, locked, onPick }) {
+  return (
+    <div className="mscale">
+      {MOOD_LEVELS.map((m) => (
+        <button
+          key={m.id}
+          className={'mlv' + (value === m.id ? ' sel' : '')}
+          style={{ background: m.color }}
+          disabled={locked}
+          onClick={() => onPick(m.id)}
+        >{m.label}</button>
+      ))}
+    </div>
+  );
+}
 
 export default function MoodTab({ day, actions }) {
   const locked = day.locked;
   const moods = day.moods || {};
+  const set = (field) => (id) => actions.setField(field, id);
+
   return (
     <div>
       {locked && <div className="banner lock">🔒 This day is locked — unlock it on the Day tab to change these.</div>}
-      <div className="moodcard">
-        <div className="mh">How I'm feeling</div>
-        <div className="msub">Tap any that fit — as many as you want. Tap again to remove.</div>
+
+      <div className="mgroup">
+        <div className="glabel">How's the day sitting?</div>
+        <MoodScale value={day.md} locked={locked} onPick={set('md')} />
+      </div>
+
+      {day.eveningOn ? (
+        <div className="mgroup">
+          <div className="glabel">And by evening?</div>
+          <MoodScale value={day.mdEve} locked={locked} onPick={set('mdEve')} />
+        </div>
+      ) : (
+        <button className="evebtn" disabled={locked} onClick={() => actions.toggleEvening()}>+ Add an evening check</button>
+      )}
+
+      <div className="mgroup">
+        <div className="glabel">Energy</div>
+        <Seg options={ENERGY_LEVELS} value={day.energy} locked={locked} onPick={set('energy')} />
+      </div>
+
+      <div className="mgroup">
+        <div className="glabel">Last night's sleep</div>
+        <div className="sublabel">How long</div>
+        <Seg options={SLEEP_HRS} value={day.sleepHrs} locked={locked} onPick={set('sleepHrs')} />
+        <div className="sublabel" style={{ marginTop: 8 }}>How it felt</div>
+        <Seg options={SLEEP_FELT} value={day.sleepFelt} locked={locked} onPick={set('sleepFelt')} wrap />
+      </div>
+
+      <div className="mgroup">
+        <div className="glabel">Room in the tank</div>
+        <div className="sublabel">Your sensory space today</div>
+        <Seg options={TANK_LEVELS} value={day.tank} locked={locked} onPick={set('tank')} />
+      </div>
+
+      <div className="mgroup">
+        <div className="glabel">Anything else here?</div>
         <div className="moodchips">
           {MOODS.map((m) => (
-            <button
-              key={m.id}
-              className={'moodchip' + (moods[m.id] ? ' on' : '')}
-              disabled={locked}
-              onClick={() => actions.toggleMood(m.id)}
-            >
-              {m.label}
-            </button>
+            <button key={m.id} className={'moodchip' + (moods[m.id] ? ' on' : '')} disabled={locked} onClick={() => actions.toggleMood(m.id)}>{m.label}</button>
           ))}
         </div>
       </div>
 
-      <div className="h2">Notes</div>
-      <textarea
-        className="moodnote"
-        placeholder="Anything you want to remember about today — sleep, triggers, wins…"
-        readOnly={locked}
-        value={day.note || ''}
-        onChange={(e) => actions.setNote(e.target.value)}
-      />
-      <p className="disc">Saved with the day, right next to your food and rituals. Included in your Copy backup.</p>
+      <div className="mgroup">
+        <div className="glabel">Notes</div>
+        <textarea
+          className="moodnote"
+          placeholder="Anything you want to remember about today — triggers, wins, what helped…"
+          readOnly={locked}
+          value={day.note || ''}
+          onChange={(e) => actions.setNote(e.target.value)}
+        />
+      </div>
+
+      <p className="disc">Saved with the day, next to your food and rituals. No streaks, no scores — just your day, so you (and your care team) can look back and see it. Your colors show up on the Week and Calendar tabs.</p>
     </div>
   );
 }

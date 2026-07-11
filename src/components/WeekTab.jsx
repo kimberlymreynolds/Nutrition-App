@@ -1,7 +1,9 @@
 import React from 'react';
-import { N } from '../data.js';
+import { N, MOOD_MAP } from '../data.js';
 import { computeTotals, statusOf, weekStartOf, shift, parseYmd, ymd, DOW, MONs, TODAY } from '../logic.js';
 import NutrientGroups from './NutrientGroups.jsx';
+
+const SLEEP_W = { u4: 25, '4_6': 50, '6_8': 75, '8p': 100 };
 
 export default function WeekTab({ state, actions }) {
   const start = weekStartOf(state.weekRef || state.activeDate);
@@ -38,15 +40,19 @@ export default function WeekTab({ state, actions }) {
           const dt = parseYmd(ds);
           const r = state.days[ds];
           const has = r && r.today && r.today.length > 0;
+          const mood = r && r.md ? MOOD_MAP[r.md] : null;
           const cls = ['wcell'];
-          if (has) cls.push('has');
+          if (has && !mood) cls.push('has');
           if (ds === state.activeDate) cls.push('active');
           if (ds === TODAY) cls.push('today');
+          const style = mood ? { background: mood.med, borderColor: mood.color } : undefined;
+          const sleepW = r && r.sleepHrs ? SLEEP_W[r.sleepHrs] : null;
           return (
-            <div className={cls.join(' ')} key={ds} onClick={() => actions.setActiveDate(ds)}>
+            <div className={cls.join(' ')} key={ds} style={style} onClick={() => actions.setActiveDate(ds)}>
               <span className="wd">{DOW[dt.getDay()][0]}</span>
               <span className="wn">{dt.getDate()}</span>
-              {has ? <span className="wdot" /> : null}
+              {mood ? <span className="msq" style={{ background: mood.color }} /> : (has ? <span className="wdot" /> : null)}
+              {sleepW ? <span className="slp" style={{ width: sleepW + '%' }} title="sleep" /> : null}
             </div>
           );
         })}
