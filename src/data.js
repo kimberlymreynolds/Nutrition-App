@@ -289,6 +289,27 @@ export const GROCERY_CATS = GRAW.map(([cat, arr]) => ({
 export const GROCERY_DEFAULTS = {};
 GROCERY_CATS.forEach((c) => c.items.forEach((i) => { if (i.def) GROCERY_DEFAULTS[i.id] = true; }));
 
+// Plate food list grouped like the grocery list (each food has one home).
+export const PLATE_SECTIONS = [
+  ['Meals', ['breakfast', 'tuna', 'quinoa', 'kwaffle', 'cwaffle']],
+  ['Fish bar', ['oysters', 'salmon', 'sardines', 'shrimp', 'mackerel', 'cod', 'mussels', 'scallops', 'grouper', 'snapper', 'cannedtuna']],
+  ['Protein bar', ['egg', 'liver', 'beef', 'chicken', 'chickenliver', 'beefheart', 'delichicken', 'bacon', 'groundbeef', 'ribeye', 'chickpeas', 'cottagecheese']],
+  ['Veggie bar', ['spinach', 'broccoli', 'kale', 'sweetpotato', 'cauliflower', 'zucchini', 'asparagus', 'brusselssprouts', 'cabbage', 'arugula', 'mushrooms', 'greenbeans', 'sauerkraut', 'kimchi', 'swisschard', 'bokchoy']],
+  ['Salad bar', ['bellpepper', 'carrots', 'radishes', 'beets', 'cherrytomatoes', 'redonion', 'celery', 'cucumber', 'pumpkinseeds', 'driedcranberries', 'feta', 'croutons', 'kalamata']],
+  ['Taco bar', ['avocado', 'cheddar', 'sourcream', 'salsa', 'hotsauce', 'jalapenos', 'cilantro', 'lettuce', 'lime', 'tortilla']],
+  ['Yogurt & fruit', ['yogurt', 'blueberries', 'raspberries', 'strawberries', 'blackberries', 'lemon', 'pineapple', 'apple', 'clementine', 'plumcot', 'banana', 'cherries', 'ketogranola']],
+  ['Dairy bar', ['kefir', 'cheese', 'goatcheese', 'wholemilk']],
+  ['Nuts & seeds', ['almonds', 'brazilnut', 'macadamia', 'walnuts', 'pecans', 'chiaseeds', 'flaxseeds', 'hempseeds', 'cashews']],
+  ['Snack bar', ['almondbutter', 'peanutbutter', 'pbpowder', 'cacaopowder', 'cacaonibs', 'nutzo', 'maca', 'pickles', 'chocchips']],
+  ['Condiments & extras', ['oliveoil', 'avocadooil', 'sesameoil', 'mctoil', 'coconutoil', 'ghee', 'butter', 'tallow', 'ranch', 'caesar', 'balsamic', 'tzatziki', 'tahini', 'mayo', 'salsaverde', 'honey', 'maplesyrup', 'mustard', 'ketchup', 'buffalosauce', 'crema', 'teriyaki', 'garlicchili', 'coconutaminos', 'coconutsyrup', 'tacoseasoning', 'pastasauce', 'cocktailsauce', 'salt']],
+  ['Pantry', ['greenlentils', 'whiterice', 'garlic', 'ginger']],
+  ['Baking', ['cassavaflour', 'coconutflour', 'coconutsugar', 'monkfruit', 'shreddedcoconut', 'bakingsoda']],
+  ['Drinks', ['matcha', 'beam', 'thorneamino', 'broth', 'berg', 'pellegrino', 'coffee', 'coconutmilk', 'almondmilk', 'wheyprotein']],
+];
+export const PLATE_SECTION_ORDER = PLATE_SECTIONS.map((s) => s[0]).concat(['Your custom items']);
+export const SEC_OF = {};
+PLATE_SECTIONS.forEach(([sec, ids]) => ids.forEach((id) => { SEC_OF[id] = sec; }));
+
 export const MOOD_LEVELS = [
   { id: 'sinking', label: 'Sinking', color: '#3D5CA8', med: '#C6CFEA' },
   { id: 'low', label: 'Heavy', color: '#7E92D8', med: '#D9DFF4' },

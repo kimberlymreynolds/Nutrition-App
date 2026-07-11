@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ALLMAP, LIB } from '../data.js';
-import { computeTotals, ketoStatus, fmt, catLabel } from '../logic.js';
+import { ALLMAP, LIB, SEC_OF, PLATE_SECTION_ORDER } from '../data.js';
+import { computeTotals, ketoStatus, fmt } from '../logic.js';
 import { FoodName } from './recipe.jsx';
 
-const CATS = ['meal', 'drink', 'protein', 'veg', 'fruit', 'fat', 'dairy', 'extra', 'custom'];
+const sectionOf = (it) => (it.cat === 'meal' ? 'Meals' : SEC_OF[it.id] || 'Your custom items');
 
 function KetoBox({ tot }) {
   const keto = ketoStatus(tot.netcarbs);
@@ -115,12 +115,12 @@ export default function PlateTab({ state, day, actions, onToast }) {
       </div>
       <div className="h2">Add to your plate</div>
       <input className="search" placeholder="Search foods & drinks…" value={q} onChange={(e) => setQ(e.target.value)} />
-      {CATS.map((c) => {
-        const list = items.filter((it) => it.cat === c);
+      {PLATE_SECTION_ORDER.map((sec) => {
+        const list = items.filter((it) => sectionOf(it) === sec);
         if (!list.length) return null;
         return (
-          <div key={c}>
-            <div className="cat">{catLabel(c)}</div>
+          <div key={sec}>
+            <div className="cat">{sec}</div>
             {list.map((it) => renderAdd(it))}
           </div>
         );
