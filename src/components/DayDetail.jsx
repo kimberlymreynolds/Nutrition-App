@@ -36,40 +36,39 @@ export default function DayDetail({ state, ds, hideHeader }) {
     <div>
       {!hideHeader && <div className="h2" style={{ marginTop: 14 }}>{DOW[dt.getDay()]}, {MONs[dt.getMonth()]} {dt.getDate()}{ds === TODAY ? ' · today' : ''}</div>}
 
-      {(mood || moodEve || r.energy || r.tank || r.sleepHrs || grat.length || r.note) && (
-        <div className="detbox">
-          <div className="detlabel">Mood</div>
-          {mood && <span className="moodpill" style={{ background: mood.color }}>{mood.label}</span>}
-          {moodEve && <span className="ovtag">→ {moodEve.label} by evening</span>}
-          {r.energy && <span className="ovtag">{ENERGY_MAP[r.energy]} energy</span>}
-          {r.tank && <span className="ovtag">tank: {TANK_MAP[r.tank]}</span>}
-          {r.sleepHrs && <span className="ovtag">{SLEEP_MAP[r.sleepHrs]} sleep{sleepFelt.length ? ' · ' + sleepFelt.join(', ') : ''}</span>}
-          {grat.length ? <div className="detlist" style={{ marginTop: 6 }}>Grateful: {grat.join(' · ')}</div> : null}
-          {r.note ? <div className="ovnote">“{r.note}”</div> : null}
-        </div>
-      )}
+      <div className="detbox">
+        <div className="detlabel">Mood</div>
+        {mood && <span className="moodpill" style={{ background: mood.color }}>{mood.label}</span>}
+        {moodEve && <span className="ovtag">→ {moodEve.label} by evening</span>}
+        {r.energy && <span className="ovtag">{ENERGY_MAP[r.energy]} energy</span>}
+        {r.tank && <span className="ovtag">tank: {TANK_MAP[r.tank]}</span>}
+        {r.sleepHrs && <span className="ovtag">{SLEEP_MAP[r.sleepHrs]} sleep{sleepFelt.length ? ' · ' + sleepFelt.join(', ') : ''}</span>}
+        {grat.length ? <div className="detlist" style={{ marginTop: 6 }}>Grateful: {grat.join(' · ')}</div> : null}
+        {r.note ? <div className="ovnote">“{r.note}”</div> : null}
+        {!(mood || moodEve || r.energy || r.tank || r.sleepHrs || grat.length || r.note) && <span className="muted">—</span>}
+      </div>
 
       <div className="detbox">
         <div className="detlabel">On the plate · {Math.round(tot.cal)} cal</div>
         <KetoBox tot={tot} />
         {foods.length ? (
           <div className="detchips">{foods.map((f, i) => <span className="dchip food" key={i}>{f.it.name.split(' — ')[0]}{f.qty > 1 ? ' ×' + f.qty : ''}</span>)}</div>
-        ) : null}
+        ) : <span className="muted">—</span>}
       </div>
 
-      {stackTaken.length > 0 && (
-        <div className="detbox">
-          <div className="detlabel">Stack</div>
+      <div className="detbox">
+        <div className="detlabel">Stack</div>
+        {stackTaken.length ? (
           <div className="detchips">{stackTaken.map((n, i) => <span className="dchip sup" key={i}>{n}</span>)}</div>
-        </div>
-      )}
+        ) : <span className="muted">—</span>}
+      </div>
 
-      {ritualsDone.length > 0 && (
-        <div className="detbox">
-          <div className="detlabel">Rituals</div>
+      <div className="detbox">
+        <div className="detlabel">Rituals</div>
+        {ritualsDone.length ? (
           <div className="detchips">{ritualsDone.map((n, i) => <span className="dchip rit" key={i}>{n}</span>)}</div>
-        </div>
-      )}
+        ) : <span className="muted">—</span>}
+      </div>
 
       <div className="detlabel" style={{ margin: '4px 0 0' }}>Vitamins &amp; nutrients</div>
       <NutrientGroups tot={tot} contribFor={(k) => contributions(state, ds, k)} />
