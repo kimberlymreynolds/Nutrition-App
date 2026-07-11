@@ -144,7 +144,7 @@ export const DOSE = {
 
 export const MOOD_LEVELS = [
   { id: 'sinking', label: 'Sinking', color: '#3E5C86', med: '#C3CEE0' },
-  { id: 'low', label: 'Heavy', color: '#7C93C4', med: '#D5DDEE' },
+  { id: 'low', label: 'Heavy', color: '#8FA0C8', med: '#DCE2EF' },
   { id: 'level', label: 'Even', color: '#3F9D77', med: '#C1E2D0' },
   { id: 'lifted', label: 'Rising', color: '#CE9A3A', med: '#ECD9A8' },
   { id: 'racing', label: 'Racing', color: '#CB6155', med: '#EFC9C1' },

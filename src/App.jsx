@@ -39,10 +39,10 @@ export default function App() {
   function goTab(name) { setTab(name); window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
   return (
+    <>
+    <div className="bg-atmos" aria-hidden="true" />
     <div className="wrap">
-      <div className="eyebrow">Daily tracker & log</div>
-      <h1>Nutrition</h1>
-      <p className="sub">Pick a day, tap in what you ate, and lock it to log it. Your supplement stack counts every day. Browse past days under Calendar.</p>
+      <div className="eyebrow eyebrow-hero">Daily tracker &amp; log</div>
 
       <div className="datebar">
         <button className="dnav" onClick={() => actions.shiftDay(-1)}>‹</button>
@@ -72,5 +72,6 @@ export default function App() {
 
       <div className={'toast' + (toastMsg ? ' show' : '')}>{toastMsg}</div>
     </div>
+    </>
   );
 }
