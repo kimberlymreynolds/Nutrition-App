@@ -1,33 +1,17 @@
 import React from 'react';
-import { N, MOOD_MAP, SLEEP_HRS } from '../data.js';
-import { computeTotals, statusOf, ketoStatus, fmt, weekStartOf, shift, parseYmd, DOW, MONs, TODAY } from '../logic.js';
-import NutrientGroups from './NutrientGroups.jsx';
+import { MOOD_MAP, SLEEP_HRS } from '../data.js';
+import { computeTotals, fmt, weekStartOf, shift, parseYmd, DOW, MONs, TODAY } from '../logic.js';
 
 const SLEEP_MAP = Object.fromEntries(SLEEP_HRS.map((s) => [s.id, s.label]));
 const SLEEP_W = { u4: 25, '4_6': 50, '6_8': 75, '8p': 100 };
 
-export default function WeekTab({ state, actions }) {
+export default function WeekTab({ state, actions, goTab }) {
   const start = weekStartOf(state.weekRef || state.activeDate);
   const days = [];
   for (let i = 0; i < 7; i++) days.push(shift(start, i));
   const s = parseYmd(days[0]), e = parseYmd(days[6]);
-  const tracked = days.filter((ds) => { const r = state.days[ds]; return r && ((r.today && r.today.length > 0) || r.locked); });
-  const cnt = tracked.length;
 
-  let avg = {}, met = {}, counts = { good: 0, part: 0, gap: 0, over: 0 };
-  if (cnt > 0) {
-    const sum = {}; N.forEach((n) => { sum[n.k] = 0; met[n.k] = 0; });
-    tracked.forEach((ds) => {
-      const t = computeTotals(state, ds);
-      N.forEach((n) => { sum[n.k] += t[n.k]; if (n.t && t[n.k] >= n.t) met[n.k]++; });
-    });
-    N.forEach((n) => { avg[n.k] = sum[n.k] / cnt; });
-    N.forEach((n) => {
-      if (n.t == null) return;
-      const st = statusOf(n, avg[n.k]);
-      if (st === 'good') counts.good++; else if (st === 'part') counts.part++; else if (st === 'gap') counts.gap++; else if (st === 'over') counts.over++;
-    });
-  }
+  const open = (ds) => { actions.setActiveDate(ds); if (goTab) goTab('day'); };
 
   return (
     <div>
@@ -50,7 +34,7 @@ export default function WeekTab({ state, actions }) {
           const style = mood ? { background: mood.med, borderColor: mood.color } : undefined;
           const sleepW = r && r.sleepHrs ? SLEEP_W[r.sleepHrs] : null;
           return (
-            <div className={cls.join(' ')} key={ds} style={style} onClick={() => actions.setActiveDate(ds)}>
+            <div className={cls.join(' ')} key={ds} style={style} onClick={() => open(ds)}>
               <span className="wd">{DOW[dt.getDay()][0]}</span>
               <span className="wn">{dt.getDate()}</span>
               {mood ? <span className="msq" style={{ background: mood.color }} /> : (has ? <span className="wdot" /> : null)}
@@ -59,6 +43,7 @@ export default function WeekTab({ state, actions }) {
           );
         })}
       </div>
+      <p className="muted" style={{ margin: '2px 0 10px' }}>Tap a day to open everything for it — mood, food, stack, and vitamins.</p>
 
       {days.map((ds) => {
         const dt = parseYmd(ds);
@@ -70,10 +55,10 @@ export default function WeekTab({ state, actions }) {
         const tot = has ? computeTotals(state, ds) : null;
         const anything = has || mood || rit > 0 || supps > 0 || (r && r.note) || (r && r.sleepHrs);
         return (
-          <button className="daycard" key={ds} onClick={() => actions.setActiveDate(ds)}>
+          <button className="daycard" key={ds} onClick={() => open(ds)}>
             <div className="dch">
               <span className="dcd">{DOW[dt.getDay()]} · {MONs[dt.getMonth()]} {dt.getDate()}{ds === TODAY ? ' · today' : ''}</span>
-              {mood && <span className="moodpill" style={{ background: mood.color }}>{mood.label}</span>}
+              {mood ? <span className="moodpill" style={{ background: mood.color }}>{mood.label}</span> : <span className="ovgo">Open ›</span>}
             </div>
             {anything ? (
               <div className="dcbody">
@@ -87,26 +72,6 @@ export default function WeekTab({ state, actions }) {
           </button>
         );
       })}
-
-      <div className="h2">Week nutrient averages</div>
-      <div className="muted" style={{ margin: '0 0 4px' }}>
-        {cnt === 0 ? 'No days logged this week yet.' : 'Averaged over ' + cnt + ' logged day' + (cnt > 1 ? 's' : '')}
-      </div>
-      {cnt > 0 && (
-        <>
-          <div className="score" style={{ marginTop: 8 }}>
-            <div className="card good"><div className="n">{counts.good}</div><div className="l">On target</div></div>
-            <div className="card part"><div className="n">{counts.part}</div><div className="l">Partial</div></div>
-            <div className="card gap"><div className="n">{counts.gap}</div><div className="l">Low</div></div>
-            <div className="card over"><div className="n">{counts.over}</div><div className="l">Over limit</div></div>
-          </div>
-          <NutrientGroups tot={avg} met={met} cnt={cnt} />
-        </>
-      )}
-      <p className="disc">
-        Each day shows your mood, food, rituals, supplements, and note together, so you can see the whole week at a glance.
-        Averages count only days you logged food (or locked).
-      </p>
     </div>
   );
 }

@@ -74,7 +74,7 @@ export default function App() {
       {tab === 'stack' && <StackTab state={state} day={realDay} actions={actions} onToast={toast} />}
       {tab === 'mood' && <MoodTab day={realDay} actions={actions} />}
       {tab === 'feel' && <RitualsTab day={realDay} actions={actions} />}
-      {tab === 'week' && <WeekTab state={state} actions={actions} />}
+      {tab === 'week' && <WeekTab state={state} actions={actions} goTab={goTab} />}
       {tab === 'calendar' && <CalendarTab state={state} actions={actions} />}
 
       <div className="savebar">{persistOK ? 'Saved automatically on this device' : '⚠ Auto-save is blocked here — use “Copy backup” in the Stack tab to keep your log'}</div>
