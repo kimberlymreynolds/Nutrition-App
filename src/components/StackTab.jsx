@@ -7,6 +7,27 @@ export default function StackTab({ state, day, actions, onToast }) {
   const backup = JSON.stringify(state);
   const locked = day.locked;
   const stack = day.stack || {};
+  const EXTRA = ['chromium', 'dake'];
+  const basics = STACK.filter((s) => !EXTRA.includes(s.id));
+  const extra = STACK.filter((s) => EXTRA.includes(s.id));
+
+  function renderSupp(s) {
+    const dose = DOSE[s.id] || { caps: 1, unit: 'unit' };
+    const taken = stack[s.id] || 0;
+    return (
+      <div className="tog" key={s.id}>
+        <div className="nm">
+          {s.name}
+          <small>{s.serving}{s.note ? ' · ' + s.note : ''} · usually {dose.caps} {dose.unit}</small>
+        </div>
+        <div className="stepper">
+          <button onClick={() => actions.decStack(s.id)} disabled={locked || taken === 0}>−</button>
+          <span className="q">{taken}×</span>
+          <button onClick={() => actions.incStack(s.id)} disabled={locked}>＋</button>
+        </div>
+      </div>
+    );
+  }
 
   function copy() {
     let done = false;
@@ -40,25 +61,10 @@ export default function StackTab({ state, day, actions, onToast }) {
         <button className="btn" style={{ flex: 1, padding: 9, fontSize: 13 }} onClick={() => actions.takeUsualStack()}>Take my usual stack</button>
         <button className="btn ghost" style={{ flex: 1, padding: 9, fontSize: 13 }} onClick={() => actions.clearStack()}>Clear</button>
       </div>
-      <div>
-        {STACK.map((s) => {
-          const dose = DOSE[s.id] || { caps: 1, unit: 'unit' };
-          const taken = stack[s.id] || 0;
-          return (
-            <div className="tog" key={s.id}>
-              <div className="nm">
-                {s.name}
-                <small>{s.serving}{s.note ? ' · ' + s.note : ''} · usually {dose.caps} {dose.unit}</small>
-              </div>
-              <div className="stepper">
-                <button onClick={() => actions.decStack(s.id)} disabled={locked || taken === 0}>−</button>
-                <span className="q">{taken}×</span>
-                <button onClick={() => actions.incStack(s.id)} disabled={locked}>＋</button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <div className="cat" style={{ marginTop: 4 }}>Basics</div>
+      {basics.map(renderSupp)}
+      <div className="cat">Extra credit</div>
+      {extra.map(renderSupp)}
 
       <div className="h2">Back up your log</div>
       <p className="muted">

@@ -3,10 +3,10 @@ import { HABITS } from '../data.js';
 
 function HabitRow({ habit, on, locked, onToggle }) {
   return (
-    <button className={'habit' + (on ? ' on' : '')} disabled={locked} onClick={onToggle}>
-      <span className="box">{on ? '✓' : ''}</span>
-      <span className="hl">{habit.label}{habit.note ? <small> · {habit.note}</small> : null}</span>
-    </button>
+    <div className="tog">
+      <div className="nm">{habit.label}{habit.note ? <small> · {habit.note}</small> : null}</div>
+      <button className={'switch ' + (on ? 'on' : '')} disabled={locked} aria-label={habit.label} onClick={onToggle}><b /></button>
+    </div>
   );
 }
 

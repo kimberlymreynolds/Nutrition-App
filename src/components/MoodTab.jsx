@@ -36,6 +36,8 @@ export default function MoodTab({ day, actions }) {
     <div>
       {locked && <div className="banner lock">🔒 This day is locked — unlock it on the Day tab to change these.</div>}
 
+      <p className="moodintro">This is your daily check-in — a place to notice how today actually felt, not to grade it. There's no right answer, no streak, and nothing to score. Tap whatever fits and leave the rest blank. Over time these turn into a picture you can look back on: where your mood sat, how you slept, what you had room for, and what you were grateful for. That's the whole point — so you (and your care team) can see your own patterns clearly.</p>
+
       <div className="mgroup">
         <div className="glabel">How's the day sitting?</div>
         <MoodScale value={day.md} locked={locked} onPick={set('md')} />
