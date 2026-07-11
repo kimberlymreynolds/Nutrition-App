@@ -70,7 +70,7 @@ export default function PlateTab({ state, day, actions, onToast }) {
             if (!it) return null;
             return (
               <div className="row" key={e.id}>
-                <div className="nm"><FoodName it={it} /><small>{it.serving || ''}{it.note ? ' · ' + it.note : ''}</small></div>
+                <div className="nm">{it.name}<small>{it.serving || ''}{it.note ? ' · ' + it.note : ''}</small></div>
                 {locked ? (
                   <span style={{ color: '#9aa8b0', fontSize: 13, fontWeight: 600 }}>{e.qty}×</span>
                 ) : (
