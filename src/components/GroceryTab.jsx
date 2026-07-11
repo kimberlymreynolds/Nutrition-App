@@ -48,10 +48,10 @@ export default function GroceryTab({ state, actions, onToast }) {
                 {list.map((it) => {
                   const on = !!grocery[it.id];
                   return (
-                    <button key={it.id} className={'gitem' + (on ? ' on' : '')} onClick={() => actions.toggleGrocery(it.id)}>
-                      <span className="gbox">{on ? '✓' : ''}</span>
-                      <span className="gname">{it.name}</span>
-                    </button>
+                    <div className="tog" key={it.id}>
+                      <div className="nm">{it.name}</div>
+                      <button className={'switch ' + (on ? 'on' : '')} aria-label={it.name} onClick={() => actions.toggleGrocery(it.id)}><b /></button>
+                    </div>
                   );
                 })}
               </div>
@@ -80,10 +80,10 @@ export default function GroceryTab({ state, actions, onToast }) {
                   <div key={c.cat} className="gcat">
                     <div className="cat">{c.cat}</div>
                     {need.map((it) => (
-                      <button key={it.id} className="gitem on" onClick={() => actions.toggleGrocery(it.id)}>
-                        <span className="gbox">✓</span>
-                        <span className="gname">{it.name}</span>
-                      </button>
+                      <div className="tog" key={it.id}>
+                        <div className="nm">{it.name}</div>
+                        <button className="switch on" aria-label={it.name} onClick={() => actions.toggleGrocery(it.id)}><b /></button>
+                      </div>
                     ))}
                   </div>
                 );
