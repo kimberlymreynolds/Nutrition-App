@@ -88,6 +88,21 @@ export default function MoodTab({ day, actions }) {
       </div>
 
       <div className="mgroup">
+        <div className="glabel">Grateful for</div>
+        <div className="msub">Three good things about today.</div>
+        {[0, 1, 2].map((i) => (
+          <input
+            key={i}
+            className="gratinput"
+            placeholder={['One…', 'Two…', 'Three…'][i]}
+            readOnly={locked}
+            value={(day.gratitude && day.gratitude[i]) || ''}
+            onChange={(e) => actions.setGratitude(i, e.target.value)}
+          />
+        ))}
+      </div>
+
+      <div className="mgroup">
         <div className="glabel">Notes</div>
         <textarea
           className="moodnote"

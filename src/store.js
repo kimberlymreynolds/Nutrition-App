@@ -28,10 +28,11 @@ function loadState() {
 }
 
 export function ensureDay(day, date) {
-  if (!day.days[date]) day.days[date] = { today: [], locked: false, note: '', moods: {}, habits: {}, stack: {}, md: null, mdEve: null, eveningOn: false, energy: null, sleepHrs: null, sleepFelt: {}, tank: null };
+  if (!day.days[date]) day.days[date] = { today: [], locked: false, note: '', gratitude: ['', '', ''], moods: {}, habits: {}, stack: {}, md: null, mdEve: null, eveningOn: false, energy: null, sleepHrs: null, sleepFelt: {}, tank: null };
   const d = day.days[date];
   if (d.today == null) d.today = [];
   if (d.note == null) d.note = '';
+  if (!Array.isArray(d.gratitude)) d.gratitude = ['', '', ''];
   if (d.moods == null) d.moods = {};
   if (d.habits == null) d.habits = {};
   if (d.stack == null) d.stack = {};
@@ -101,6 +102,7 @@ export function useStore() {
     clearDay() { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.today = []; }); },
     toggleLock() { mutate((s) => { const d = ensureDay(s, s.activeDate); d.locked = !d.locked; }); },
     setNote(v) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.note = v; }); },
+    setGratitude(i, v) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; if (!Array.isArray(d.gratitude)) d.gratitude = ['', '', '']; d.gratitude[i] = v; }); },
     toggleMood(id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.moods = d.moods || {}; d.moods[id] = !d.moods[id]; }); },
     setField(field, id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d[field] = d[field] === id ? null : id; }); },
     toggleEvening() { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.eveningOn = !d.eveningOn; }); },
