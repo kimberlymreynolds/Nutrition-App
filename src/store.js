@@ -100,6 +100,7 @@ export function useStore() {
     dec(id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; const x = d.today.find((y) => y.id === id); if (x) { x.qty--; if (x.qty <= 0) d.today = d.today.filter((y) => y.id !== id); } }); },
     remove(id) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.today = d.today.filter((y) => y.id !== id); }); },
     clearDay() { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.today = []; }); },
+    clearDayAll() { mutate((s) => { delete s.days[s.activeDate]; }); },
     toggleLock() { mutate((s) => { const d = ensureDay(s, s.activeDate); d.locked = !d.locked; }); },
     setNote(v) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; d.note = v; }); },
     setGratitude(i, v) { mutate((s) => { const d = ensureDay(s, s.activeDate); if (d.locked) return; if (!Array.isArray(d.gratitude)) d.gratitude = ['', '', '']; d.gratitude[i] = v; }); },

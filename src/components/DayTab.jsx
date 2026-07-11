@@ -2,9 +2,17 @@ import React from 'react';
 import { computeTotals, scoreCounts } from '../logic.js';
 import DayDetail from './DayDetail.jsx';
 
-export default function DayTab({ state, day }) {
+export default function DayTab({ state, day, actions, onToast }) {
   const tot = computeTotals(state, state.activeDate);
   const sc = scoreCounts(tot);
+
+  function confirmClear() {
+    const ok = window.confirm('Clear everything logged for this day?\n\nFood, mood, rituals, stack, gratitude, and notes will all be erased for this day. This can’t be undone.');
+    if (ok && actions) {
+      actions.clearDayAll();
+      if (onToast) onToast('Day cleared');
+    }
+  }
 
   return (
     <div>
@@ -18,6 +26,10 @@ export default function DayTab({ state, day }) {
       </div>
 
       <DayDetail state={state} ds={state.activeDate} hideHeader />
+
+      <div style={{ marginTop: 26, textAlign: 'center' }}>
+        <button className="clearday-btn" onClick={confirmClear}>Clear this day…</button>
+      </div>
     </div>
   );
 }
