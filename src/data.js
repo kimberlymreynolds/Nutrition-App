@@ -143,11 +143,11 @@ export const DOSE = {
 };
 
 export const MOOD_LEVELS = [
-  { id: 'sinking', label: 'Sinking', color: '#3E5C86', med: '#C3CEE0' },
-  { id: 'low', label: 'Heavy', color: '#8FA0C8', med: '#DCE2EF' },
-  { id: 'level', label: 'Even', color: '#3F9D77', med: '#C1E2D0' },
-  { id: 'lifted', label: 'Rising', color: '#CE9A3A', med: '#ECD9A8' },
-  { id: 'racing', label: 'Racing', color: '#CB6155', med: '#EFC9C1' },
+  { id: 'sinking', label: 'Sinking', color: '#3D5CA8', med: '#C6CFEA' },
+  { id: 'low', label: 'Heavy', color: '#7E92D8', med: '#D9DFF4' },
+  { id: 'level', label: 'Even', color: '#2FA97C', med: '#BFE6D3' },
+  { id: 'lifted', label: 'Rising', color: '#E2A02C', med: '#F2E0AC' },
+  { id: 'racing', label: 'Racing', color: '#DA5348', med: '#F3CBC4' },
 ];
 export const MOOD_MAP = Object.fromEntries(MOOD_LEVELS.map((m) => [m.id, m]));
 
