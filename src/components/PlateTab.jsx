@@ -85,10 +85,24 @@ export default function PlateTab({ state, day, actions, onToast }) {
       {locked && <div className="banner lock">🔒 This day is locked. Tap Unlock on the Day tab to make changes.</div>}
       <KetoBox tot={tot} />
 
+      <div className="h2">Add to your plate</div>
+      <input className="search" placeholder="Search foods & drinks…" value={q} onChange={(e) => setQ(e.target.value)} />
+      {PLATE_SECTION_ORDER.map((sec) => {
+        const list = items.filter((it) => sectionOf(it) === sec);
+        if (!list.length) return null;
+        return (
+          <div key={sec}>
+            <div className="cat">{sec}</div>
+            {list.map((it) => renderAdd(it))}
+          </div>
+        );
+      })}
+      {items.length === 0 && <p className="muted">No matches.</p>}
+
       <div className="h2">On the plate</div>
       <div className="plate">
         {day.today.length === 0 ? (
-          <div className="empty">No food logged yet. Add something below.</div>
+          <div className="empty">No food logged yet. Add something above.</div>
         ) : (
           day.today.map((e) => {
             const it = ALLMAP[e.id];
@@ -113,19 +127,6 @@ export default function PlateTab({ state, day, actions, onToast }) {
           })
         )}
       </div>
-      <div className="h2">Add to your plate</div>
-      <input className="search" placeholder="Search foods & drinks…" value={q} onChange={(e) => setQ(e.target.value)} />
-      {PLATE_SECTION_ORDER.map((sec) => {
-        const list = items.filter((it) => sectionOf(it) === sec);
-        if (!list.length) return null;
-        return (
-          <div key={sec}>
-            <div className="cat">{sec}</div>
-            {list.map((it) => renderAdd(it))}
-          </div>
-        );
-      })}
-      {items.length === 0 && <p className="muted">No matches.</p>}
 
       <div className="h2">Build your own meal</div>
       <div className="form">
